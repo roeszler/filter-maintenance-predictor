@@ -1,90 +1,465 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# The Machine Learning (ML) Project 
 
-## Gitpod Template Instructions
+Considering a fictitious business case where predictive analytics can be applied to a real life project. The scenario occurs in an industrial workplace looking to employ a **predictive maintenance model** in place of a **preventative** one as the primary strategy to maintain heavy equipment. 
 
-Welcome,
+This dataset has been selected as an example of training a Machine Learning model to predict the degradation process (gradual clogging) of a replaceable part, in this case a dust filter.
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions. Click the Use this template button to get started.
+The project is aimed to provide an example of added value to a variety of industrial users looking to optimise maintenance programs and or industrial processes that require some sort of filtering, like the screening for ore concentrate, gas particles, materials in water or other slurries.
 
-You can safely delete the Gitpod Template Instructions section of this README.md file,  and modify the remaining paragraphs for your own project. Please do read the Gitpod Template Instructions at least once, though! It contains some important information about Gitpod and the extensions we use. 
+The added value of a predictive model includes:
+* Identify patterns that lead to potential problems or failures
+* Identifying trends to aid future business decisions and/or investments
+* Confidently predict the frequency of required maintenance
+* Shorter equipment downtimes
+* Actively preventing failures whilst optimizing the value of replacement parts
+* Lowering the cost of preventive maintenance
+* Avoiding the cost of repair/corrective maintenance
+* Avoiding cost of replacing equipment
+* Increasing the expected useful life of equipment
+* Minimizing energy consumption
 
-## Gitpod Reminders
+<details>
+<summary style="font-size: 1.2rem;"><strong>Table of Contents:</strong> (Dropdown List)</summary>
+<!-- ## Table of Contents: -->
 
-To log into the Heroku toolbelt CLI:
+### 1. [Business Case(s) Understanding](#1-business-case-understanding)
+* [Business Case Surveys](#business-case-surveys)
+* [Business Requirements](#business-requirements)
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+### 2. [Data Understanding]()
+* [The Dataset](#the-dataset)
+* [Dataset Content](#dataset-content)
+* [Further Considerations](#further-data-considerations)
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+### 3. [Initial Data Preparation](#3-initial-data-preparation-1)
+* [Calculated Variables](#calculated-variables)
+* [Reordering Data Set References](#alteration-of-data_no-references)
+* [Splitting Datasets](#splitting-datasets)
+
+### 4. Validating Hypothesis
+
+### 5. Mapping Business Requirements to Visualizations and ML tasks
+* Requirement 1 : [Predict Current RUL]()
+* Requirement 2 : [Optimal time to Change Filter]()
+* Requirement 3 : [Dust Cluster Grouping]()
+* Requirement 4 : [Correlations for Maximizing RUL]()
+
+### 6. ML Business Cases
+* Business Case 1 : [Predict Current RUL]()
+    * Model 1 - Regression Model
+       * Section for discussion of each Notebook on:
+            * Data Exploration NB
+            * [Correlation Study]() NB
+            * EDA on selected variables NB
+            * Conclusions and Next Steps NB
+    * Model 2 - Classification Model
+        * ...
+
+* Business Case 2 : [Predict Optimal Part Change]()
+    * Model 1 - Regression Model
+        * ...
+
+    * Model 2 - Classification Model
+        * ...
+
+* Business Case 3 : [Observe Dust Cluster Group]()
+    * Model 1 - Clustering Model
+    
+### 7. Data Visualization and Correlation Study
+* Business Case 4 : [RUL Correlations]()
+    * We will inspect the data related to the RUL.
+    * We will conduct a correlation study (Pearson and Spearman) to understand better how the variables are correlated to RUL.
+    * We will plot the main variables against RUL to visualize insights.
+
+### 8. [Display, Deliver, Communicate]()
+* [API]()
+* [Dashboard Delivery (Streamlit)]()
+    * Page 1: [Quick project summary]()
+    * Page 2: [Replacement Part Predictor]()
+    * Page 3: [Project Hypothesis and Validation]()
+    * Page 4: [Predict Differential Pressure Model]()
+    * Page 5: [Predict Replacement Timing Model]()
+    * Page 6: [Cluster Analysis Model]() (what groups this occurs in)
+    * Page 7: [Maximizing Useful Life Study]()
+
+</details><br>
+
+### Summary of Terms & Jargon
+
+* **The client** is the business we are providing a Machine Learning (ML) solution for.
+* **The stakeholder** is a team, business or entity involved with the development of the machine learning model.
+* **A user** is a person or business looking to use the model to inform business decisions.
+* **A prospect** is a potential new customer
+* **The project** is the plan and delivery of a ML solution to meet a variety of requirements to Predict Maintenance of a replaceable part.
+* The **replaceable part** for this project, is considered a filter mat made out of randomly oriented, non-woven fibre material.
+* **Differential Pressure** is a measure of the change in air pressures before and after the filtering process.
+* **RUL** is Remaining Useful Life; the amount of time an asset (machine, replaceable part, filter, etc.) is likely to operate before it requires repair or replacement.
+* The **filter degradation process** is the gradual performance decline over time, which can be quantified and used by statistical models.
+* **The threshold** is the actual time when the experiment exceeded the threshold, used to define when the observations pass into the zone of failure.
+* A **life test** is the entire test cycle from the first instance of a Data_No to the last.
+* **Filter failure** is signified when the **differential pressure** across the filter **exceeds 600 Pa**.
+* **Right censored data** is where “failure” has/will occur after the recorded time.
+* **Zone of Failure** is the last 10% of RUL for that replacement part.
 
 
-## Dataset Content
-* Describe your dataset
+# 1. Business Case Understanding
 
+As a Data Analyst, we have been requested by the Power Technique division (the client) to provide actionable insights and data-driven recommendations to a corporation that manufactures industrial tools and equipment. 
+
+This client has a substantial customer base in oil and gas and offshore industries, as well as power plants and surface and underground mining. They are interested in promoting the management of preventative maintenance and understanding how the industrial sales team could better interact with prospects to the benefits of transitioning toward predictive maintenance. The client has shared the data in two files:  
+
+* **Train_Data.csv** - 50% of the data without RUL to fit or train the model.
+* **Test_Data.csv** - 50% of the data with RUL with the actual recorded values of time when the experiment exceeded the threshold.
+
+The data is segmented into 50 life tests (similar to data bins). The amount of observations in each bin varies depending on the input variables and a random time when the tail of the data was removed to produce a right censored dataset.
+
+## Business Case Surveys 
+See [Business Case Understanding](https://docs.google.com/document/d/1PnWhRg7F-0idx_qIOnzNXumI0he5jXNLqjbDqvul9kY/edit?usp=sharing)
+
+To determine the number and depth of ML Models required to meet the stakeholders requirements, an understanding of the business needs and wants needs to be obtained. This needs to contain a clear expression of the requirements that stakeholders need to be solved. 
+
+This process is developed in a **business case** that can be applied to each ML model. These consider:
+* The Model objective
+* The Outcome 
+* The Metrics 
+* The Output
+* The Heuristic Information (ie calculated guesses, trial and error or rules of thumb)
+* The Training data 
+* Dashboard Design
+
+The information for this process has been collected from the stakeholders as a Survey - [Business Case Questionnaire](https://docs.google.com/forms/d/e/1FAIpQLSfIjxD0Ki9793LTQ2szr3-qWKXUsMbQS1AhM80BCAvltxmu4A/viewform) and individually summarized in the attached [Business Case Understanding document](https://docs.google.com/document/d/1PnWhRg7F-0idx_qIOnzNXumI0he5jXNLqjbDqvul9kY/edit?usp=sharing).
 
 ## Business Requirements
-* Describe your business requirements
+In summary, from the above business case understanding process, stakeholders are interested in: 
+1. Using a predictive model to **determine the current RUL** of any given filter (replaceable part).
+2. The solution should indicate the optimal time to change a replaceable air filter in RUL units. 
+    * Does it confirm the industry rule of thumb to replace at a 10% RUL zone or does the data indicate something else?
+3. Where the optimal time is considered the cost benefit trade off between maximizing useful life and minimizing the risk of failure.
+4. If a filter fails, or fails prematurely, which type of dust (cluster) does it belong to? and which factors could extend the filter's lifespan?
+    * **Understanding the patterns** from the filter degradation process to reveal the most relevant factors that influence the time that a replacement part will fail.
+
+#### As a Data Practitioner, we are additionally interested in:
+5. Making the most of the not-to-failure (right-censored) test data.
+
+These requirements can now be evaluated against the dataset provided to devise the type of ML models to be delivered by this project.
+
+# 2. Data Understanding
+## The Dataset
+* The dataset is sourced from [Kaggle](https://www.kaggle.com/datasets/prognosticshse/preventive-to-predicitve-maintenance) performed by Hagmeyer et al. (2021) at the Hochschule Esslingen University of Applied Sciences.
+## Dataset Content
+### Summarized in the table below, the raw data set includes information about:
+* Test Classification measures, 
+    * such as which one of 50 ‘lifetime test’ sequences that the observations relate to, 
+    * or which type of three ISO_12130 standardised dust samples were used. 
+* Numerical Air Pressure observations 
+    * These indicate a change in air pressures before and after the filtering process.
+* Numerical Air Flow observations 
+    * These indicate the air flows following the filtering process.
+* Categorical Observations of Dust Feed 
+    * These indicate dust density fed into the system per unit of time. 
+* These correlate to a numerical floating point number, which is a constant for each class
+		* A2_Fine - 0.900 g/m3
+		* A3_Fine - 1.025 g/m3
+		* A4_Fine- 1.200 g/m3
+* Time 
+    * indicates the discrete intervals between live test observations. 
+    * Time is a direct input to the RUL calculation and indicates the total number of live tests observed in the data set. ie 
+        * Data_no 1 takes 36.6s to the end of that tests observations
+            * this indicates that there has been 366 live tests in this sample set
+        * Data_no 2 take 28.2s to the end of that tests observations
+		    * this indicates that there has been 282 live tests in this sample set
+    * This was confirmed by the .count() of the .unique() variables in each Data_no variable
+
+| Variable | Meaning | Units | Data Format | Data Type |
+|---|---|---|---|---|
+| Data_no | Test Number | Categorical Number 1 to 50 | Independent | Integer / Discrete Categorical |
+ Differential_pressure | Pressure difference between upstream and downstream containment areas | Pascals (Pa = kg/m.s²) | Dependant | Floating point / Continuous |
+| Flow_rate | quantity of air being moved | m3/sec | Independent | Floating point / Continuous |
+| Time | Intervals between observations within a test as determined by sampling rate | 1/10th of a second | Independent | Floating point / Discrete (in this case) |
+| Dust_Feed | velocity of the particle speed | mm3/s | Independent | Floating point / Continuous |
+| Dust | 3 x types of ISO_12130 standardized dust ( A2 Fine, A3 Medium, A4 Coarse) | g/cm3 | Independent | String / Discrete Number |
+| RUL | Remaining Useful Life | Relative Units (ie 1 unit = 1 day) | Dependent | Floating point / Continuous |
+
+## Further Data Considerations
+### **Filter medium**
+The material used to filter the dust samples has been standardised across all tests. As a constant, it was not recorded as part of the datasets. Its properties were:
+
+| Mean Fibre Diameter | 23 μm (micrometres) |
+| Filter Area | 6131mm2 |
+| Filter Thickness | 20mm |
+| Filter Packing Density | 0.014 - 0.0165 |
+| Clean Filter Pressure Drop | 25 Pa at flow of 1080 m3 / (h - m2 |
+
+### **Sampling rate**
+Also not recorded as part of the supplied dataset, sampling rate is a constant, set at 10 Hz (or 0.1s per sample) for all tests.
+
+### **Zone of Failure**
+A trade-off has to be made between wasted remaining useful life and the increased frequency of unplanned downtimes that occur in the last 10% of RUL.
+* On Average, filter failure is observed to occur at the final 10% of the filter's RUL in the training data, and planned maintenance / replacement of the part would occur in this zone.
+* At what point the final 10% zone commences will be a prediction based on the predicted RUL for each filer and the currently observed RUL.
+
+### Key Importance of Differential Pressure
+Differential pressure, the measure of the change in air pressures before and after the filtering process, seems to be a highly important variable to failure detection process, as it: 
+* Is a dependent variable as it relies on a variety of factors, including flow rate, dust size, filter type, time. 
+* Filter failure is considered to occur when this measure reaches 600 Pa so is expected to be highly correlated to RUL
+* Depending on the rate of degradation toward the end of filter life, It may be a direct indicator of the **zone of failure**.
+
+As the variable that a user would want to learn patterns, uncover relationships and predict using the rest of the dataset, Differential Pressure has been chosen as the **Target variable**.
+
+# 3. Initial Data Preparation
+As part of the data owners design, the dataset is made up of variables that can be used to calculate measures that may be useful to the end user (Remaining Useful Life is one of these). To include these in the data to be analyzed, the following calculations have been made: 
+## Calculated Variables
+| Variable | Meaning | Units | Data Format | Data Type |
+|---|---|---|---|---|
+| Dust Density | Numerical equivalent of dust density | g/cm3 | Independent | Floating point / Continuous |
+| Dust Mass | Mass of the dust density fed into the filter | grams | Independent | Floating point / Continuous |
+| Cumulative Dust Mass | Cumulating dust mass fed into the filter over each test bin | grams | Independent | Floating point / Continuous |
+| Total Time of Test | The cumulative time for the current test bin | seconds (T) | Independent | Floating point / Discrete |
+| RUL Test | A check calculation of Remaining Useful Life from actual and calculated values in the set | Relative Units (ie 1 unit = 1 day) | Dependent | Floating point / Continuous |
+
+### Details of Calculations:
+<details>
+<summary style="font-size: 1.2rem;"><strong>Remaining Useful Life (RUL) (dropdown list)</strong></summary>
+
+![RUL Image]()
+
+**Remaining Useful Life** is classified as **the amount of time an asset (machine, replaceable part, filter, etc.) is likely to operate before it requires repair or replacement**. This is recorded in units relative to the test case, however units can represent Seconds, Minutes, Days, Miles, Cycles or any other quantifiable data. In practice: 
+* The RUL observations provided in the data are randomly right-censored. In other words, filter failure did not occur by the end of each test cycle. 
+* This can be observed by the final observation of each test set in the **Differential_pressure** column. Each set does not reach the filter failure point of 600 Pa of differential pressure across the filter. This is the essence of right-censored. The data does not cover the full timeline to filter failure, however it ends somewhere before (at the right side) of this data set.
+* The original idea of the author behind the test data was, at the point in time when the data in each set ends, the remaining useful life (RUL) is to be estimated.
+* i.e. we are interested in the rate of change in RUL, and the subsequent shape and direction of the line(s) of best fit. This will allow us to predict RUL with some degree of certainty, based on the variables given.
+
+For every observation, ‘RUL’ is the difference between:
+* the maximum value of the ‘**time**’ in each test cycle (in this case to failure), and 
+* the current observation ‘**time**’ at each test cycle
+
+<p style="text-align: center; font-size: 1.2rem;">Remaining Useful Life (RUL) = Total time (cycles) to failure for each life test (T) - current time (t)</p>
+
+* the RUL at the start of each test cycle was randomised to a number between the maximum time value and 3 minutes.
+
+The resulting numerical data can then be used to observe the change in RUL and assist in producing an accurate model.
+
+</details>
 
 
-## Hypothesis and how to validate?
-* List here your project hypothesis(es) and how you envision validating it (them) 
+<details>
+<summary style="font-size: 1.2rem;"><strong>Calculations of Mass (g)</strong></summary>
+
+### Calculations of Mass (g)
+The mass of the dust fed each life test is a factor of dust feed and dust density. These can be sourced from the data and has been calculated as:
+
+We know:
+<p style="text-align: center; font-size: 1.2rem;">
+Mass Flow Rate = Volume per second × Density</br>
+MFr = Q × ρ</p>
 
 
-## The rationale to map the business requirements to the Data Visualizations and ML tasks
-* List your business requirements and a rationale to map them to the Data Visualizations and ML tasks
+<p style="text-align: center; font-size: 1.2rem;">
+Mass = Volume × Density</br>
+m = V × ρ</p>
+
+Where:
+* Q = Volume flow rate (m3/s)
+* V = Volume (m3)
+* ρ = mass density of the dust (kg/m3)
+* T = total number of seconds in each life test
 
 
-## ML Business Case
-* In the previous bullet, you potentially visualized an ML task to answer a business requirement. You should frame the business case using the method we covered in the course 
+Therefore: 
+<p style="text-align: center; font-size: 1.2rem;">Mass = (((Q mm3/s) / 1000 ) × ρ g/cm3 ) * T</p>
+
+* =  (((1 mm3/s) / 1000 ) × 0.9 g/cm3 ) * 1s
+* =  0.001 cm3/s × 0.9 g/cm3
+* = 0.0009 grams every test (in this example total test duration = 1s) 
+
+</details>
+
+<details>
+<summary style="font-size: 1.2rem;"><strong>Right Censored Data</strong></summary>
+
+### Right Censored Data
+By definition, right censored data is incomplete data. However, In this dataset we know that the end of life for a filter is when the differential pressure across a filter is 600 Pa. 
+
+We can therefore predict the remaining time to that end of life point based on the trajectory of the change in differential pressure values provided.
+
+The existence of right-censored data represents a challenge in this dataset to ensure we make the most use of the existing right-censored life data variables within the training data to predict RUL. This could be performed with conventional data analysis, however the heuristic and versatile nature of machine learning makes it ideal in predicting this measure with greater statistical confidence.
+
+This information has then formed basis of the business requirements in this hypothetical project scenario.
+
+#### Possible considerations to manage right censored data:
+* [cross-validation : evaluating estimator performance](https://scikit-learn.org/stable/modules/cross_validation.html) (in sklearn),
+* The function [cross_val_predict](https://scikit-learn.org/stable/modules/cross_validation.html#:~:text=The%20function%20cross_val_predict%20is%20appropriate%20for%3A) is appropriate for: Visualisation of predictions obtained from different models.
+* Model blending: When predictions of one supervised estimator are used to train another estimator in ensemble methods.
+
+</details>
+
+<details>
+<summary style="font-size: 1.2rem;"><strong>Use of continuous vs discrete variables</strong></summary>
+
+### Use of continuous vs discrete variables; 
+* Models designed for continuous variables can in many cases be used with discrete variables, however
+* Models designed for discrete data used with continuous variables is rather a bad idea, as discrete variable models consider fixed, whole number values, with clear spaces between them. They consider data that cannot be measured or divided into smaller values, unlike continuous variables.
+
+</details>
 
 
-## Dashboard Design
-* List all dashboard pages and their content, either blocks of information or widgets, like buttons, checkboxes, images, or any other item that your dashboard library supports.
-* Later, during the project development, you may revisit your dashboard plan to update a given feature (for example, at the beginning of the project you were confident you would use a given plot to display an insight but subsequently you used another plot type).
+## Alteration of Data_No References 
+The datasets (df_test and df_train) are supplied in the following format:
+* 50% df_test data (39,414 observations) have the actual RUL calculations included.
+* 50% df_train data (39,420 observations) without RUL calculations.
+* Both sets have had the tails of their data removed. 
+* This produces right-censored data (i.e. each set does not reach 600 Pa of differential pressure).
+
+Before further dividing these datasets, we note that the categorical variable ‘Data_No’ restarts in the df_train set. To avoid confusion in later steps, or inadvertently correlate a Train set Data_No value of ‘1’ to be the same as a Test set Data_No value ‘1’, we manipulate the latter to be a **continuation** from the last value in the df_test set range with `df_test['Data_No'] + df_train_total_sets`.
+
+## Splitting Datasets
+### Test, Train, Validation Data
+
+The primary purpose of splitting the dataset into train, test and validation sets is to prevent the model(s) from overfitting. There is no optimal split percentage, however we would typically split the data in a way that suits the requirements and meets the model’s needs.
+
+Ideally, the split of these subsets from a single dataset would be:
+* Training Set = 70-80% (to fit the model)
+* Validation Set = 10-20% (cross validation, compare models and choose hyperparameters)
+* Test Set = 20-30%
+
+In this project, with the data provided in a ‘pre-split’ format. Considering this, the business requirements and the needs of the model, training data has been split into df_train and df_validate by;
+Splitting of data into df_train and df_test (already performed at 50:50)
+Ideally we would prefer a 80% test : 20% train split, and due to the target RUL variable being a computation from time and differential pressure, a calculation could be determined to achieve an 80:20 split. However:
+The presence of live data provided,
+The complexities of right censored datasets and 
+The computed RUL values approaching zero 
+Results in the supplied 50:50 split outweighs the 80:20 preference in this instance. 
+
+Split df_test again into a proportion of validation 40% and test 60%
+Reviewing the data, note the grouping of 1 to 50 test bins. To maintain the relevance of the data to each test set, the 40:60 validation to training split has been generated by
+Acknowledging a 40:60 split sits neatly into 20 data sets : 30 data sets
+Randomly sampling 20 data set values from df_test
+
+import random
+random_list = list(df_train['Data_No'].unique())
+random.sample(random_list, 20)
+
+Using these values as the keys to extract the Data_No sets from df_test and placing it into df_validate
+Dropping the df_validate values from df_test
+Reset the index values of both df_test and df_validate
+
+Now checking each data of the data sets to be in a ratio of the entire data set 78834
+df_train - 50% (39420, 7)
+df_test - approx 30% (23645, 6)
+df_validate - approx 20% (15763, 6)
+Note: the df_test and df_validate levels will vary depending on the random Data_No values generated and the differing sizes of the observations in each of these sets.
+Save the all datasets as working .csv files
+ 
+Where:
+* X_train: It is used to represent features for the training data
+* X_test: It is used to represent features for testing data
+* X_validate: It is used to represent features for cross validation
+* y_train: It is used to represent dependent variables for training data
+* y_test: It is used to represent independent variable for testing data
+* y_validate: is used to represent independent features for validating data
+
+from sklearn.model_selection import train_test_split    
+x_train, x_test, y_train, y_test, X_validate, y_validate = train_test_split(x, y, test_size= 0.2, random_state=0)  
 
 
+# 4. Validating Hypothesis
 
-## Unfixed Bugs
-* You will need to mention unfixed bugs and why they were not fixed. This section should include shortcomings of the frameworks or technologies used. Although time can be a significant variable to consider, paucity of time and difficulty understanding implementation is not a valid reason to leave bugs unfixed.
+## What is the predominant class of variables?
+The data is predominantly comprised of **continuous** data in **equal proportions**.  
 
-## Deployment
-### Heroku
+## Dependant Variables : 
+* Differential Pressure (target variable) = Numerical = Regression
+* Cumulative Mass of Filtered Dust
+* RUL 
 
-* The App live link is: https://YOUR_APP_NAME.herokuapp.com/ 
-* The project was deployed to Heroku using the following steps.
+## Independent variables: 
+* Flow Rate
+* Time
+	* Time interval (Sampling Rate)
+	* Total time to Filter Failure (at 600Pa Differential Pressure)
+* Dust Feed
+* Dust Type
+	* Dust Mass
+	* Grain Size
 
-1. Log in to Heroku and create an App
-2. At the Deploy tab, select GitHub as the deployment method.
-3. Select your repository name and click Search. Once it is found, click Connect.
-4. Select the branch you want to deploy, then click Deploy Branch.
-5. The deployment process should happen smoothly if all deployment files are fully functional. Click now the button Open App on the top of the page to access your App.
+## Learning Model
+* A Supervised Learning Model used where the model has a target variable:
+    * We consider a **multiple regression model** which is supervised and multi-dimensional (Business Cases 1 & 2).
+    * We consider a **classification model** to be used where data is grouped by similarity (Business Case 3).
+
+* An unsupervised model used where the model doesn't have a target variable and we wish to reveal patterns or unseen patterns.
+    * We consider a **cluster model** which is unsupervised for (Business Case 4).
+
+* If the target variable is:
+    * A Class or Category? = Consider Classification 
+    * A Number? = Consider Regression variations
+    * A Boolean value? = Consider Classification, logistic regression
+    * A Date? = Discrete or Continuous Classification? Classification or Regression
+
+<!-- ML models generate algorithms to learn the patterns. The type of regression algorithm we use will impact the result:
+* Linear Regression Algorithm
+* Logistic Regression Algorithm
+* Native Bayes Algorithm -->
+
+# 5. Mapping Business Requirements to Visualizations and ML tasks
+
+* **Requirement 1 :** [Predict Current RUL]() : Classification, Regression, Cluster and Data Analysis
+    * We want to **predict the RUL of a filter**. We want to build a...
 
 
-## Main Data Analysis and Machine Learning Libraries
-* Here you should list the libraries you used in the project and provide an example(s) of how you used these libraries.
+* **Requirement 2 :** [Optimal time to Change Filter]()
+    * ...
 
+* **Requirement 3 :** [Dust Cluster Grouping]()
+    * ...
 
-## Credits 
+* **Requirement 4 :** [Correlations for Maximizing RUL]()
+    * ...
 
-* In this section, you need to reference where you got your content, media and extra help from. It is common practice to use code from other repositories and tutorials, however, it is important to be very specific about these sources to avoid plagiarism. 
-* You can break the credits section up into Content and Media, depending on what you have included in your project. 
+# 6. ML Business Cases
 
-### Content 
+## Business Case 1 : [Predict Current RUL]()
+* Model 1 - Regression Model
+    * Section for discussion of each Notebook on:
+        * Data Exploration NB
+        * [Correlation Study]() NB
+        * EDA on selected variables NB
+        * Conclusions and Next Steps NB
+* Model 2 - Classification Model
+    * ...
 
-- The text for the Home page was taken from Wikipedia Article A
-- Instructions on how to implement form validation on the Sign-Up page was taken from [Specific YouTube Tutorial](https://www.youtube.com/)
-- The icons in the footer were taken from [Font Awesome](https://fontawesome.com/)
+## Business Case 2 : [Predict Optimal Part Change]()
+* Model 1 - Regression Model
+    * ...
 
-### Media
+* Model 2 - Classification Model
+    * ...
 
-- The photos used on the home and sign-up page are from This Open-Source site
-- The images used for the gallery page were taken from this other open-source site
+## Business Case 3 : [Observe Dust Cluster Group]()
+* Model 1 - Clustering Model
+    
+# 7. Data Visualization and Correlation Study
 
+## Business Case 4 : [RUL Correlations]()
+* We will inspect the data related to the RUL.
+* We will conduct a correlation study (Pearson and Spearman) to understand better how the variables are correlated to RUL.
+* We will plot the main variables against RUL to visualize insights.
 
+# 8. [Display, Deliver, Communicate]()
+## [API]()
 
-## Acknowledgements (optional)
-* Thank the people that provided support through this project.
+## [Dashboard Delivery (Streamlit)]()
+* Page 1: [Quick project summary]()
+
+* Page 2: [Replacement Part Predictor]()
+
+* Page 3: [Project Hypothesis and Validation]()
+
+* Page 4: [Predict Differential Pressure Model]()
+
+* Page 5: [Predict Replacement Timing Model]()
+
+* Page 6: [Cluster Analysis Model]() (what groups this occurs in)
+
+* Page 7: [Maximizing Useful Life Study]()
 
