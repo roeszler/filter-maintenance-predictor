@@ -253,7 +253,7 @@ As supplied, the dataset is made up of variables that can be used to calculate m
 <details>
 <summary style="font-size: 1.2rem;"><strong>Remaining Useful Life (RUL) (dropdown list)</strong></summary>
 
-![RUL Image]()
+![RUL Image](static/img/RUL_Image.png)
 
 **Remaining Useful Life** is classified as **the amount of time an asset (machine, replaceable part, filter, etc.) is likely to operate before it requires repair or replacement**. This is recorded in units relative to the test case, however units can represent Seconds, Minutes, Days, Miles, Cycles or any other quantifiable data. In practice: 
 * The RUL observations provided in the data are randomly right-censored. In other words, filter failure did not occur by the end of each test cycle. 
@@ -521,3 +521,19 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 
 * Page 7: [Maximizing Useful Life Study]()
 
+# 10. Credits
+
+## Content
+* Hosted at [Heroku](https://www.heroku.com/platform).
+* Repository and issue management features provided at [GitHub](https://github.com/roeszler/filter-maintenance-predictor).
+* Developed using:
+    * The [GitPod Development Environment](https://www.gitpod.io/) 
+    * The [Streamlit](https://streamlit.io/) applications framework 
+    * The [Jupiter Notebooks](https://jupyter.org/) interface
+
+## Media
+* Remaining Useful Life image sourced from [Stratadata](https://www.stratada.com/remaining-useful-life-rul-prediction/) Nov 2022.
+
+---
+__COPYRIGHT NOTICE__ :
+ *The Filter Maintenance predictor site is a functional program intended for educational purposes at the time of coding. Notwithstanding, it has been written as a proof of concept and invitation to treat for employers and stakeholders into the future. Copyrights for code, ideas, concepts and materials strictly lies with Stuart Roeszler © 2022. All rights reserved.*
