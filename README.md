@@ -109,7 +109,7 @@ The added value of a predictive model includes:
 * **Zone of Failure** is the last 10% of RUL for that replacement part.
 
 
-# 1. Business Case Understanding
+## 1. Business Case Understanding
 
 As a Data Analyst, we have been requested by the Power Technique division (the client) to provide actionable insights and data-driven recommendations to a corporation that manufactures industrial tools and equipment. 
 
@@ -120,7 +120,7 @@ This client has a substantial customer base in oil and gas and offshore industri
 
 The data is segmented into 50 life tests (data bins). The amount of observations in each bin varies depending on the input variables and a random time when the tail of the data was removed to produce a [right censored](#right-censored-data) dataset.
 
-## Business Case Surveys 
+### Business Case Surveys 
 To determine the number and depth of ML Models required to meet the stakeholders requirements, an understanding of the business needs and wants needs to be obtained. This needs to contain a clear expression of the requirements that stakeholders need to be solved. 
 
 This process is developed in a **business case** that can be applied to each ML model. These consider:
@@ -134,7 +134,7 @@ This process is developed in a **business case** that can be applied to each ML 
 
 The information for this process has been collected from the stakeholders as a Survey - [Business Case Questionnaire](https://docs.google.com/forms/d/e/1FAIpQLSfIjxD0Ki9793LTQ2szr3-qWKXUsMbQS1AhM80BCAvltxmu4A/viewform) and individually summarized in the attached [Business Case Understanding](https://docs.google.com/document/d/1PnWhRg7F-0idx_qIOnzNXumI0he5jXNLqjbDqvul9kY/edit?usp=sharing) document.
 
-## Business Requirements
+### Business Requirements
 From the above process, we confirm that stakeholders are interested in: 
 1. Using a predictive model to **determine the current Reaming Useful Life (RUL)** of any given filter (replaceable part).
 
@@ -151,11 +151,11 @@ From the above process, we confirm that stakeholders are interested in:
 
 These requirements can now be evaluated against the dataset provided to devise the type of ML models to be delivered by this project.
 
-# 2. Data Understanding
-## The Dataset
+## 2. Data Understanding
+### The Dataset
 * The dataset is sourced from [Kaggle](https://www.kaggle.com/datasets/prognosticshse/preventive-to-predicitve-maintenance) performed by Hagmeyer et al. (2021) at the Hochschule Esslingen University of Applied Sciences.
-## Dataset Content
-### Summarized in the table below, the raw data set includes information about:
+### Dataset Content
+#### Summarized in the table below, the raw data set includes information about:
 <details>
 <summary style="font-size: 1rem;"><strong>Test Classification measures</strong></summary>
 
@@ -208,8 +208,8 @@ These requirements can now be evaluated against the dataset provided to devise t
 | **Dust** | 3 x types of ISO_12130 standardized dust ( A2 Fine, A3 Medium, A4 Coarse) | g/cm3 | Independent | String / Discrete Number |
 | **RUL** | Remaining Useful Life | Relative Units (ie 1 unit = 1 day) | Dependent | Floating point / Continuous |
 
-## Further Data Considerations
-### **Filter medium**
+### Further Data Considerations
+#### **Filter medium**
 The material used to filter the dust samples has been standardised across all tests. As a constant, it was not recorded as part of the datasets. Its properties were:
 
 | Mean Fibre Diameter | 23 μm (micrometres) |
@@ -218,7 +218,7 @@ The material used to filter the dust samples has been standardised across all te
 | Filter Packing Density | 0.014 - 0.0165 |
 | Clean Filter Pressure Drop | 25 Pa at flow of 1080 m3 / (h - m2 |
 
-### **Sampling rate**
+#### **Sampling rate**
 Also not recorded as part of the supplied dataset, sampling rate is a constant, set at 10 Hz (or 0.1s per sample) for all tests.
 
 ### **Zone of Failure**
@@ -226,7 +226,7 @@ A trade-off has to be made between wasted remaining useful life and the increase
 * On Average, filter failure is observed to occur at the final 10% of the filter's RUL in the training data, and planned maintenance / replacement of the part would occur in this zone.
 * At what point the final 10% zone commences will be a prediction based on the predicted RUL for each filer and the currently observed RUL.
 
-### **Important Note: Differential Pressure**
+#### **Important Note: Differential Pressure**
 Differential pressure, the measure of the change in air pressures before and after the filtering process, seems to be a highly important variable to failure detection process, as it: 
 * Is a dependent variable as it relies on a variety of factors, including flow rate, dust size, filter type, time. 
 * Filter failure is considered to occur when this measure reaches 600 Pa so is expected to be highly correlated to RUL
@@ -234,13 +234,13 @@ Differential pressure, the measure of the change in air pressures before and aft
 
 As the variable that a user would want to learn patterns, uncover relationships and predict using the rest of the dataset, Differential Pressure has been chosen as the primary **Target variable** for intital investigations.
 
-# 3. Initial Data Cleaning 
+## 3. Initial Data Cleaning 
 Initial observation of the data reveals it is clean. There are no repeated or missing values. The df_train data set has been supplied without RUL observations as part of the testing and validation process requested by the owner.
 
 Outside of the following initial data engineering, the supplied dataset is considered clean.
-# 4. Initial Data Engineering
+## 4. Initial Data Engineering
 As supplied, the dataset is made up of variables that can be used to calculate measures that are potentially useful indicators to the end user (Remaining Useful Life is one of these). To include these in the data to be analyzed, the following additional calculations have been made: 
-## Additional Calculations
+### Additional Calculations
 | Variable | Meaning | Units | Data Format | Data Type |
 |---|---|---|---|---|
 | **Dust Density** | Numerical equivalent of dust density | g/cm3 | Independent | Floating point / Continuous |
@@ -249,7 +249,7 @@ As supplied, the dataset is made up of variables that can be used to calculate m
 | **Total Time of Test** | The cumulative time for the current test bin | seconds (T) | Independent | Floating point / Discrete |
 | **RUL Test** | A check calculation of Remaining Useful Life from actual and calculated values in the set | Relative Units (ie 1 unit = 1 day) | Dependent | Floating point / Continuous |
 
-### Details of Calculations:
+#### Details of Calculations:
 <details>
 <summary style="font-size: 1.2rem;"><strong>Remaining Useful Life (RUL) (dropdown list)</strong></summary>
 
@@ -277,7 +277,7 @@ The resulting numerical data can then be used to observe the change in RUL and a
 <details>
 <summary style="font-size: 1.2rem;"><strong>Calculations of Mass (g)</strong></summary>
 
-### Calculations of Mass (g)
+#### Calculations of Mass (g)
 The mass of the dust fed each life test is a factor of dust feed and dust density. These can be sourced from the data and has been calculated as:
 
 We know:
@@ -309,7 +309,7 @@ Therefore:
 <details>
 <summary style="font-size: 1.2rem;"><strong>Right Censored Data</strong></summary>
 
-### Right Censored Data
+#### Right Censored Data
 By definition, right censored data is incomplete data. However, In this dataset we know that the end of life for a filter is when the differential pressure across a filter is 600 Pa. 
 
 We can therefore predict the remaining time to that end of life point based on the trajectory of the change in differential pressure values provided.
@@ -328,14 +328,14 @@ This information has then formed basis of the business requirements in this hypo
 <details>
 <summary style="font-size: 1.2rem;"><strong>Use of continuous vs discrete variables</strong></summary>
 
-### Use of continuous vs discrete variables; 
+#### Use of continuous vs discrete variables; 
 * Models designed for continuous variables can in many cases be used with discrete variables, however
 * Models designed for discrete data used with continuous variables is rather a bad idea, as discrete variable models consider fixed, whole number values, with clear spaces between them. They consider data that cannot be measured or divided into smaller values, unlike continuous variables.
 
 </details>
 
 
-## Modification of '**Data_No**' 
+### Modification of '**Data_No**' 
 The datasets (df_test and df_train) are supplied in the following format:
 * 50% df_test data (39,414 observations) have the actual RUL calculations included.
 * 50% df_train data (39,420 observations) without RUL calculations.
@@ -344,8 +344,8 @@ The datasets (df_test and df_train) are supplied in the following format:
 
 Before further dividing these datasets, we note that the categorical variable ‘Data_No’ restarts in the df_train set. To avoid confusion in later steps, or inadvertently correlate a Train set Data_No value of ‘1’ to be the same as a Test set Data_No value ‘1’, we manipulate the latter to be a **continuation** from the last value in the df_test set range with `df_test['Data_No'] + df_train_total_sets`.
 
-## Splitting Datasets
-### Test, Train, Validation Data
+### Splitting Datasets
+#### Test, Train, Validation Data
 Recalling that the data for this analysis has been provided in a ‘pre-split’ format, we need to attend to the division propr to 
 
 The primary purpose of splitting the dataset into train, test and validation sets is to prevent the model(s) from overfitting. There is no optimal split percentage, however we would typically split the data in a way that suits the requirements and meets the model’s needs.
@@ -398,9 +398,9 @@ Save the all datasets as working `.csv` files
 from sklearn.model_selection import train_test_split    
 x_train, x_test, y_train, y_test, X_validate, y_validate = train_test_split(x, y, test_size= 0.2, random_state=0)   -->
 
-# 5. Validating Hypothesis
+## 5. Validating Hypothesis
 
-## Hypothesis and how to validate?
+### Hypothesis and how to validate?
 
 <!-- 1 - We suspect customers are churning with **low tenure** levels. -->
 * We suspect Remaining Useful Life is directly correlated to **dust feed**.
@@ -412,11 +412,11 @@ x_train, x_test, y_train, y_test, X_validate, y_validate = train_test_split(x, y
 * We suspect filters fail at a faster rate in the **A4 dust particle** group.
     * A **Correlation study** can help in this investigation
 
-## What is the predominant class of variables?
+### What is the predominant class of variables?
 The data is predominantly comprised of **continuous** data in **equal proportions**. With calculated variables included, they are classified as:
 
 <details>
-<summary style="font-size: 1.2rem;"><strong>Dependant Variables :</strong></summary>
+<summary style="font-size: 1.2rem;"><strong>Dependant Variables</strong></summary>
 
 * Differential Pressure (target variable) = Numerical = Regression
 * Remaining Useful Life 
@@ -424,7 +424,7 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 </details>
 
 <details>
-<summary style="font-size: 1.2rem;"><strong>Independent variables: </strong></summary>
+<summary style="font-size: 1.2rem;"><strong>Independent variables</strong></summary>
 
 * Flow Rate
 * Time
@@ -436,13 +436,15 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 	* Grain Size
 </details>
 
-## Type of Learning Model
+### Type of Learning Model
 * A Supervised Learning Model used where the model has a target variable:
-    * We will consider a **multiple regression model** which is supervised and multi-dimensional ([Business Cases 1 & 2](#business-requirements)).
-    * We will consider a **classification model** to be used where data is grouped by similarity ([Business Case 3](#business-requirements)).
+    * We will consider a **multiple regression model** which is supervised and multi-dimensional ([Business Cases 1 & 2](#business-requirements)) 
+    * Should a regressor not perform well, we will run a **classification model** for each.
 
-* An Unsupervised Learning Model used where the model doesn't have a target variable and we wish to reveal patterns or unseen patterns.
-    * We will consider a **cluster model** for this to mee the requirements of [Business Case 4](#business-requirements).
+* An Unsupervised Learning Model used where the model doesn't have a target variable and we wish to reveal patterns or unseen patterns:
+    * We will consider a **k-means probabilistic clustering model** to be used where data is grouped by similarity ([Business Case 3](#business-requirements)).
+
+* We will consider a **correlation and visualization study** for this to mee the requirements of [Business Case 4](#business-requirements).
 
 <!-- * If the target variable is:
     * A Class or Category? = We will consider a Classification model. 
@@ -455,7 +457,7 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 * Logistic Regression Algorithm
 * Native Bayes Algorithm -->
 
-# 6. Mapping Business Requirements to Visualizations and ML tasks
+## 6. Mapping Business Requirements to Visualizations and ML tasks
 
 * **Requirement 1 :** [Predict Current RUL]() : Classification, Regression, Cluster and Data Analysis
     * We want to **predict the RUL of a filter**. 
@@ -473,40 +475,40 @@ The data is predominantly comprised of **continuous** data in **equal proportion
     * We will conduct a correlation study (Pearson and Spearman) to understand better how the variables are correlated to RUL.
     * We will plot the main variables against RUL to visualize insights.
 
-# 7. The ML Business Cases
+## 7. The ML Business Cases
 
-## Business Case 1 : [Predict Current RUL]()
-### Regression Model
+### Business Case 1 : [Predict Current RUL]()
+#### Regression Model
 * Section for discussion of each Notebook on:
     * Data Exploration NB
     * [Correlation Study]() NB
     * EDA on selected variables NB
     * Conclusions and Next Steps NB
-### Classification Model
+#### Classification Model
 * ...
 
-## Business Case 2 : [Predict Optimal Part Change]()
-### Regression Model
+### Business Case 2 : [Predict Optimal Part Change]()
+#### Regression Model
 * ...
 
-### Classification Model
+#### Classification Model
 * ...
 
-## Business Case 3 : [Observe Dust Cluster Group]()
-### Clustering Model
+### Business Case 3 : [Observe Dust Cluster Group]()
+#### Clustering Model
 * ...
     
-# 8. The Correlation Study / Data Visualization
-## Business Case 4 : [RUL Correlations]()
-### Correlation Study
+## 8. The Correlation Study / Data Visualization
+### Business Case 4 : [RUL Correlations]()
+#### Correlation Study
 * We will inspect the data related to the RUL.
 * We will conduct a correlation study (Pearson and Spearman) to understand better how the variables are correlated to RUL.
 * We will plot the main variables against RUL to visualize insights.
 
-# 9. Visualization, Delivery and Communication
-## [API]()
+## 9. Visualization, Delivery and Communication
+### [API]()
 ...
-## [Dashboard Delivery (Streamlit)]()
+### [Dashboard Delivery (Streamlit)]()
 * Page 1: [Quick project summary]()
 
 * Page 2: [Replacement Part Predictor]()
@@ -521,9 +523,9 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 
 * Page 7: [Maximizing Useful Life Study]()
 
-# 10. Credits
+## 10. Credits
 
-## Content
+### Content
 * Hosted at [Heroku](https://www.heroku.com/platform).
 * Repository and issue management features provided at [GitHub](https://github.com/roeszler/filter-maintenance-predictor).
 * Developed using:
@@ -531,7 +533,7 @@ The data is predominantly comprised of **continuous** data in **equal proportion
     * The [Streamlit](https://streamlit.io/) applications framework 
     * The [Jupiter Notebooks](https://jupyter.org/) interface
 
-## Media
+### Media
 * Remaining Useful Life image sourced from [Stratadata](https://www.stratada.com/remaining-useful-life-rul-prediction/) Nov 2022.
 
 ---
