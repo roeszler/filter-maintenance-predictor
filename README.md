@@ -180,9 +180,9 @@ These requirements can now be evaluated against the dataset provided to devise t
 
 * Indicates dust density fed into the system per unit of time. 
 * Correlates to a numerical floating point number, which is a constant for each class
-		* A2_Fine - 0.900 g/m3
-		* A3_Fine - 1.025 g/m3
-		* A4_Fine- 1.200 g/m3
+		* A2_Fine - 0.900 g/m<sup>3</sup>
+		* A3_Fine - 1.025 g/m<sup>3</sup>
+		* A4_Fine- 1.200 g/m<sup>3</sup>
 </details>
 
 <details>
@@ -202,10 +202,10 @@ These requirements can now be evaluated against the dataset provided to devise t
 |---|---|---|---|---|
 | **Data_no** | Test Number | Categorical Number 1 to 50 | Independent | Integer / Discrete Categorical |
  **Differential_pressure** | Pressure difference between upstream and downstream containment areas | Pascals (Pa = kg/m.s²) | Dependant | Floating point / Continuous |
-| **Flow_rate** | quantity of air being moved | m3/sec | Independent | Floating point / Continuous |
+| **Flow_rate** | quantity of air being moved | m<sup>3</sup>/sec | Independent | Floating point / Continuous |
 | **Time** | Intervals between observations within a test as determined by sampling rate | 1/10th of a second | Independent | Floating point / Discrete (in this case) |
-| **Dust_Feed** | velocity of the particle speed | mm3/s | Independent | Floating point / Continuous |
-| **Dust** | 3 x types of ISO_12130 standardized dust ( A2 Fine, A3 Medium, A4 Coarse) | g/cm3 | Independent | String / Discrete Number |
+| **Dust_Feed** | velocity of the particle speed | mm<sup>3</sup>/s | Independent | Floating point / Continuous |
+| **Dust** | 3 x types of ISO_12130 standardized dust ( A2 Fine, A3 Medium, A4 Coarse) | g/cm<sup>3</sup> | Independent | String / Discrete Number |
 | **RUL** | Remaining Useful Life | Relative Units (ie 1 unit = 1 day) | Dependent | Floating point / Continuous |
 
 ### Further Data Considerations
@@ -213,10 +213,10 @@ These requirements can now be evaluated against the dataset provided to devise t
 The material used to filter the dust samples has been standardised across all tests. As a constant, it was not recorded as part of the datasets. Its properties were:
 
 | Mean Fibre Diameter | 23 μm (micrometres) |
-| Filter Area | 6131mm2 |
+| Filter Area | 6131mm² |
 | Filter Thickness | 20mm |
 | Filter Packing Density | 0.014 - 0.0165 |
-| Clean Filter Pressure Drop | 25 Pa at flow of 1080 m3 / (h - m2 |
+| Clean Filter Pressure Drop | 25 Pa at flow of 1080 m<sup>3</sup> / (h - m²) |
 
 #### **Sampling rate**
 Also not recorded as part of the supplied dataset, sampling rate is a constant, set at 10 Hz (or 0.1s per sample) for all tests.
@@ -232,18 +232,19 @@ Differential pressure, the measure of the change in air pressures before and aft
 * Filter failure is considered to occur when this measure reaches 600 Pa so is expected to be highly correlated to RUL
 * Depending on the rate of degradation toward the end of filter life, It may be a direct indicator of the **zone of failure**.
 
-As the variable that a user would want to learn patterns, uncover relationships and predict using the rest of the dataset, Differential Pressure has been chosen as the primary **Target variable** for intital investigations.
+As the variable that a user would want to learn patterns, uncover relationships and predict using the rest of the dataset, Differential Pressure has been chosen as the primary **Target variable** for initial investigations.
 
 ## 3. Initial Data Cleaning 
 Initial observation of the data reveals it is clean. There are no repeated or missing values. The df_train data set has been supplied without RUL observations as part of the testing and validation process requested by the owner.
 
-Outside of the following initial data engineering, the supplied dataset is considered clean.
+Outside of the following initial data engineering, **the supplied dataset is considered clean**.
+
 ## 4. Initial Data Engineering
 As supplied, the dataset is made up of variables that can be used to calculate measures that are potentially useful indicators to the end user (Remaining Useful Life is one of these). To include these in the data to be analyzed, the following additional calculations have been made: 
 ### Additional Calculations
 | Variable | Meaning | Units | Data Format | Data Type |
 |---|---|---|---|---|
-| **Dust Density** | Numerical equivalent of dust density | g/cm3 | Independent | Floating point / Continuous |
+| **Dust Density** | Numerical equivalent of dust density | g/cm<sup>3</sup> | Independent | Floating point / Continuous |
 | **Dust Mass** | Mass of the dust density fed into the filter | grams | Independent | Floating point / Continuous |
 | **Cumulative Dust Mass** | Cumulating dust mass fed into the filter over each test bin | grams | Independent | Floating point / Continuous |
 | **Total Time of Test** | The cumulative time for the current test bin | seconds (T) | Independent | Floating point / Discrete |
@@ -251,7 +252,7 @@ As supplied, the dataset is made up of variables that can be used to calculate m
 
 #### Details of Calculations:
 <details>
-<summary style="font-size: 1.2rem;"><strong>Remaining Useful Life (RUL) (dropdown list)</strong></summary>
+<summary style="font-size: 1.1rem;"><strong>Remaining Useful Life (RUL) (dropdown list)</strong></summary>
 
 ![RUL Image](static/img/RUL_Image.png)
 
@@ -265,7 +266,7 @@ For every observation, ‘RUL’ is the difference between:
 * the maximum value of the ‘**time**’ in each test cycle (in this case to failure), and 
 * the current observation ‘**time**’ at each test cycle
 
-<p style="text-align: center; font-size: 1.2rem;">Remaining Useful Life (RUL) = Total time (cycles) to failure for each life test (T) - current time (t)</p>
+<p style="text-align: center; font-size: 1.1rem;">Remaining Useful Life (RUL) = Total time (cycles) to failure for each life test (T) - current time (t)</p>
 
 * the RUL at the start of each test cycle was randomised to a number between the maximum time value and 3 minutes.
 
@@ -275,7 +276,7 @@ The resulting numerical data can then be used to observe the change in RUL and a
 
 
 <details>
-<summary style="font-size: 1.2rem;"><strong>Calculations of Mass (g)</strong></summary>
+<summary style="font-size: 1.1rem;"><strong>Calculations of Mass (g)</strong></summary>
 
 #### Calculations of Mass (g)
 The mass of the dust fed each life test is a factor of dust feed and dust density. These can be sourced from the data and has been calculated as:
@@ -291,23 +292,23 @@ Mass = Volume × Density</br>
 m = V × ρ</p>
 
 Where:
-* Q = Volume flow rate (m3/s)
-* V = Volume (m3)
-* ρ = mass density of the dust (kg/m3)
+* Q = Volume flow rate (m<sup>3</sup>/s)
+* V = Volume (m<sup>3</sup>)
+* ρ = mass density of the dust (kg/m<sup>3</sup>)
 * T = total number of seconds in each life test
 
 
 Therefore: 
-<p style="text-align: center; font-size: 1.2rem;">Mass = (((Q mm3/s) / 1000 ) × ρ g/cm3 ) * T</p>
+<p style="text-align: center; font-size: 1.2rem;">Mass = (((Q mm<sup>3</sup>/s) / 1000 ) × ρ g/cm<sup>3</sup> ) * T</p>
 
-* =  (((1 mm3/s) / 1000 ) × 0.9 g/cm3 ) * 1s
-* =  0.001 cm3/s × 0.9 g/cm3
+* =  (((1 mm<sup>3</sup>/s) / 1000 ) × 0.9 g/cm<sup>3</sup> ) * 1s
+* =  0.001 cm<sup>3</sup>/s × 0.9 g/cm<sup>3</sup>
 * = 0.0009 grams every test (in this example total test duration = 1s) 
 
 </details>
 
 <details>
-<summary style="font-size: 1.2rem;"><strong>Right Censored Data</strong></summary>
+<summary style="font-size: 1.1rem;"><strong>Right Censored Data</strong></summary>
 
 #### Right Censored Data
 By definition, right censored data is incomplete data. However, In this dataset we know that the end of life for a filter is when the differential pressure across a filter is 600 Pa. 
@@ -326,7 +327,7 @@ This information has then formed basis of the business requirements in this hypo
 </details>
 
 <details>
-<summary style="font-size: 1.2rem;"><strong>Use of continuous vs discrete variables</strong></summary>
+<summary style="font-size: 1.1rem;"><strong>Use of continuous vs discrete variables</strong></summary>
 
 #### Use of continuous vs discrete variables; 
 * Models designed for continuous variables can in many cases be used with discrete variables, however
@@ -334,8 +335,9 @@ This information has then formed basis of the business requirements in this hypo
 
 </details>
 
+<details>
+<summary style="font-size: 1.1rem;"><strong>Modification of the Data_No variable</strong></summary>
 
-### Modification of '**Data_No**' 
 The datasets (df_test and df_train) are supplied in the following format:
 * 50% df_test data (39,414 observations) have the actual RUL calculations included.
 * 50% df_train data (39,420 observations) without RUL calculations.
@@ -343,8 +345,11 @@ The datasets (df_test and df_train) are supplied in the following format:
 * This produces right-censored data (i.e. each set does not reach 600 Pa of differential pressure).
 
 Before further dividing these datasets, we note that the categorical variable ‘Data_No’ restarts in the df_train set. To avoid confusion in later steps, or inadvertently correlate a Train set Data_No value of ‘1’ to be the same as a Test set Data_No value ‘1’, we manipulate the latter to be a **continuation** from the last value in the df_test set range with `df_test['Data_No'] + df_train_total_sets`.
+</details>
 
-### Splitting Datasets
+<details>
+<summary style="font-size: 1.1rem;"><strong>Splitting Datasets</strong></summary>
+
 #### Test, Train, Validation Data
 Recalling that the data for this analysis has been provided in a ‘pre-split’ format, we need to attend to the division propr to 
 
@@ -398,8 +403,9 @@ Save the all datasets as working `.csv` files
 from sklearn.model_selection import train_test_split    
 x_train, x_test, y_train, y_test, X_validate, y_validate = train_test_split(x, y, test_size= 0.2, random_state=0)   -->
 
-## 5. Validating Hypothesis
+</details>
 
+## 5. Validating Hypothesis
 ### Hypothesis and how to validate?
 
 <!-- 1 - We suspect customers are churning with **low tenure** levels. -->
@@ -416,7 +422,7 @@ x_train, x_test, y_train, y_test, X_validate, y_validate = train_test_split(x, y
 The data is predominantly comprised of **continuous** data in **equal proportions**. With calculated variables included, they are classified as:
 
 <details>
-<summary style="font-size: 1.2rem;"><strong>Dependant Variables</strong></summary>
+<summary style="font-size: 1.1rem;"><strong>Dependant Variables</strong></summary>
 
 * Differential Pressure (target variable) = Numerical = Regression
 * Remaining Useful Life 
@@ -424,7 +430,7 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 </details>
 
 <details>
-<summary style="font-size: 1.2rem;"><strong>Independent variables</strong></summary>
+<summary style="font-size: 1.1rem;"><strong>Independent variables</strong></summary>
 
 * Flow Rate
 * Time
