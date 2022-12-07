@@ -351,7 +351,13 @@ Before further dividing these datasets, we note that the categorical variable �
 <summary style="font-size: 1.1rem;"><strong>Splitting Datasets</strong></summary>
 
 #### Test, Train, Validation Data
-Recalling that the data for this analysis has been provided in a ‘pre-split’ format, we need to attend to the division propr to 
+Recalling that the data for this analysis has been provided in a ‘pre-split’ format, we need to attend to the division prior to its use. 
+
+Two main observations can bee seen in the distributions of these datasets 
+1. The data has been pre-split into 50 test : 50 train with actual RUL values in the test dataset only.
+2. The data us unevenly distributed between types of dust used in each test
+
+#### 1. Pre-Split Data
 
 The primary purpose of splitting the dataset into train, test and validation sets is to prevent the model(s) from overfitting. There is no optimal split percentage, however we would typically split the data in a way that suits the requirements and meets the model’s needs.
 
@@ -402,6 +408,17 @@ Save the all datasets as working `.csv` files
 
 from sklearn.model_selection import train_test_split    
 x_train, x_test, y_train, y_test, X_validate, y_validate = train_test_split(x, y, test_size= 0.2, random_state=0)   -->
+
+#### 2. Uneven Data Distribution 
+
+There appears to be a division of 48% Medium :  37% Coarse : 15% Fine in the **df_test** dataset and a division of 48% Medium :  28% Fine : 24% Coarse in the **df_train** dataset. This may be a refection of a typical use within the business cause, however may cause unnecessary noise to the models due to an over dominance of one or another dataset.
+
+Strategies to account for this include:
+* Assessing the central tendency (minimum | maximum | average | median | mode | skewness | krutosis) of the bins with a greater proportion of data and choosing only the bins that represent the central tendency of the group, in a total data size close to the smaller proportion bins
+* Assessing the randomness of what proportion the data has been **right censored** by comparing how far away last value of `differential_pressure` is from 600 Pa. This will give us a rudimentary idea as to the proportion of the bin that has been removed in each case. This can be seen as the `censored` column in the datasets as a percentage (%).
+
+Bins that sit further away from the measures of central tendency will be considered for removal to make the proportions of the data bins in each dataset more evenly distributed (i.e. at 33% each).
+
 
 </details>
 
