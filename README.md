@@ -4,7 +4,7 @@ Considering a fictitious business case where predictive analytics can be applied
 
 This dataset has been selected as an example of training a Machine Learning model to predict the degradation process (gradual clogging) of a replaceable part, in this case a dust filter.
 
-The project is aimed to provide an example of added value to a variety of industrial users looking to optimise maintenance programs and or industrial processes that require some sort of filtering, like the screening for ore concentrate, gas particles, materials in water or other slurries.
+The project is aimed to provide an example of added value to a variety of industrial users looking to optimize maintenance programs and or industrial processes that require some sort of filtering, like the screening for ore concentrate, gas particles, materials in water or other slurries.
 
 The added value of a predictive model includes:
 * Identify patterns that lead to potential problems or failures
