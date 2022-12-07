@@ -136,7 +136,7 @@ The information for this process has been collected from the stakeholders as a S
 
 ### Business Requirements
 From the above process, we confirm that stakeholders are interested in: 
-1. Using a predictive model to **determine the current Reaming Useful Life (RUL)** of any given filter (replaceable part).
+1. Using a predictive model to **determine the current Reaming Useful Life (RUL)** of any given filter (replaceable part) and indicate if a filter is currently **useable** or **not-useable**.
 
 2. The solution should indicate **the optimal time to change an air filter**, in RUL units. 
     * i.e. Confirm the industry rule of thumb to replace at a 10% RUL zone is correct or does the data indicate something else?
@@ -221,7 +221,7 @@ The material used to filter the dust samples has been standardised across all te
 #### **Sampling rate**
 Also not recorded as part of the supplied dataset, sampling rate is a constant, set at 10 Hz (or 0.1s per sample) for all tests.
 
-### **Zone of Failure**
+#### **Zone of Failure**
 A trade-off has to be made between wasted remaining useful life and the increased frequency of unplanned downtimes that occur in the last 10% of RUL.
 * On Average, filter failure is observed to occur at the final 10% of the filter's RUL in the training data, and planned maintenance / replacement of the part would occur in this zone.
 * At what point the final 10% zone commences will be a prediction based on the predicted RUL for each filer and the currently observed RUL.
@@ -409,6 +409,8 @@ x_train, x_test, y_train, y_test, X_validate, y_validate = train_test_split(x, y
 ### Hypothesis and how to validate?
 
 <!-- 1 - We suspect customers are churning with **low tenure** levels. -->
+* We suspect a filter still has a useable remaining life
+    * A **Boolean test model** can help with this indication
 * We suspect Remaining Useful Life is directly correlated to **dust feed**.
     * A **Correlation study** can help in this investigation
 * We suspect Remaining Useful Life is can be projected from **differential pressure**.
@@ -466,7 +468,7 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 ## 6. Mapping Business Requirements to Visualizations and ML tasks
 
 * **Requirement 1 :** [Predict Current RUL]() : Classification, Regression, Cluster and Data Analysis
-    * We want to **predict the RUL of a filter**. 
+    * We want to **predict the RUL of a filter** and receive a binary response to indicate a filter as **useable** or **not-useable**.
     * We want to build a multiple regression model or change the ML task to classification depending on the regressor performance.
 
 * **Requirement 2 :** [Optimal time to Change Filter]()
