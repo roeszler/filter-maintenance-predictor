@@ -244,6 +244,7 @@ As supplied, the dataset is made up of variables that can be used to calculate m
 ### Additional Calculations
 | Variable | Meaning | Units | Data Format | Data Type |
 |---|---|---|---|---|
+| **Change in Differential Pressure** | Numerical value of change in pressure | Pascals (Pa = kg/m.s²) | Dependant | Floating point / Continuous |
 | **Dust Density** | Numerical equivalent of dust density | g/cm<sup>3</sup> | Independent | Floating point / Continuous |
 | **Dust Mass** | Mass of the dust density fed into the filter | grams | Independent | Floating point / Continuous |
 | **Cumulative Dust Mass** | Cumulating dust mass fed into the filter over each test bin | grams | Independent | Floating point / Continuous |
@@ -268,9 +269,16 @@ For every observation, ‘RUL’ is the difference between:
 
 <p style="text-align: center; font-size: 1.1rem;">Remaining Useful Life (RUL) = Total time (cycles) to failure for each life test (T) - current time (t)</p>
 
-* the RUL at the start of each test cycle was randomised to a number between the maximum time value and 3 minutes.
+* the RUL at the start of each test cycle was randomized to a number between the maximum time value and 3 minutes.
 
 The resulting numerical data can then be used to observe the change in RUL and assist in producing an accurate model.
+
+</details>
+
+<details>
+<summary style="font-size: 1.1rem;"><strong>Change in Differential Pressure</strong></summary>
+
+Simple calculation of the change that occurs in Differential Pressure at each observation. The trend of the change in this value will indicate the trend of the change in the target variable `differential pressure` and ultimately allow us to predict when filter failure is likely to occur. 
 
 </details>
 
