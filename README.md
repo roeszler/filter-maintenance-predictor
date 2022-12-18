@@ -241,10 +241,10 @@ Outside of the following initial data engineering, **the supplied dataset is con
 
 ## 4. Initial Data Engineering
 As supplied, the dataset is made up of variables that can be used to calculate measures that are potentially useful indicators to the end user (Remaining Useful Life is one of these). To include these in the data to be analyzed, the following additional calculations have been made: 
-### Additional Calculations
+### Quantitative Calculations
 | Variable | Meaning | Units | Data Format | Data Type |
 |---|---|---|---|---|
-| **Change in Differential Pressure** | Numerical value of change in pressure | Pascals (Pa = kg/m.s²) | Dependant | Floating point / Continuous |
+<!-- | **Change in Differential Pressure** | Numerical value of change in pressure | Pascals (Pa = kg/m.s²) | Dependant | Floating point / Continuous | -->
 | **Dust Density** | Numerical equivalent of dust density | g/cm<sup>3</sup> | Independent | Floating point / Continuous |
 | **Dust Mass** | Mass of the dust density fed into the filter | grams | Independent | Floating point / Continuous |
 | **Cumulative Dust Mass** | Cumulating dust mass fed into the filter over each test bin | grams | Independent | Floating point / Continuous |
