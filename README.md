@@ -228,9 +228,10 @@ A trade-off has to be made between wasted remaining useful life and the increase
 
 #### **Important Note: Differential Pressure**
 Differential pressure, the measure of the change in air pressures before and after the filtering process, seems to be a highly important variable to failure detection process, as it: 
-* Is a dependent variable as it relies on a variety of factors, including flow rate, dust size, filter type, time. 
-* Filter failure is considered to occur when this measure reaches 600 Pa so is expected to be highly correlated to RUL
-* Depending on the rate of degradation toward the end of filter life, It may be a direct indicator of the **zone of failure**.
+* Is a dependent variable as it relies on a variety of factors, including flow rate, dust size, filter type, time.
+* Filter failure is considered to occur when this measure reaches 600 Pa.
+* Filter failure is positively correlated to RUL; i.e. **Differential Pressure = 600 Pa** indicates **RUL = 0 time remaining**
+* Depending on the rate of degradation toward the end of life for each type of filter, Differential Pressure may be a direct indicator of the **zone of failure**.
 
 As the variable that a user would want to learn patterns, uncover relationships and predict using the rest of the dataset, Differential Pressure has been chosen as the primary **Target variable** for initial investigations.
 
