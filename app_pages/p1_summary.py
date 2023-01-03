@@ -1,11 +1,16 @@
 import streamlit as st
+from PIL import Image
 
 # streamlit run app.py
+filter_image = Image.open('static/img/Forsta_High_Res-2394418179.png')
 
 def page1_body():
 
-    st.write("### Project Summary")
-    st.write("Page 1")
+    st.write(
+        f'### Project Summary\n'
+        f'Page 1'
+        )
+    st.image(filter_image, caption='180 Series ForstaFilter')
 
     # text based on README file - "Dataset Content" section
     st.info(

@@ -538,6 +538,7 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 - The images used for the gallery page were taken from this other open-source site -->
 
 * Remaining Useful Life image sourced from [Stratadata](https://www.stratada.com/remaining-useful-life-rul-prediction/) Nov 2022.
+* Industrial filter image sourced from [forstafilters](https://www.forstafilters.com/wp-content/uploads/2014/06/Forsta_High_Res.jpg) Nov 2022.
 
 
 ## Acknowledgements (optional)
