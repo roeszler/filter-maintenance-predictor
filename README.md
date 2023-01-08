@@ -380,8 +380,8 @@ Bins that sit further away from the measures of central tendency will be conside
 
 The primary purpose of splitting the dataset into train, test and validation sets is to prevent the model(s) from overfitting. There is no optimal split percentage, however we would typically split the data in a way that suits the requirements and meets the model’s needs.
 
-Ideally, the split of these subsets from a single dataset would be:
-* Training Set = 70-80% (to fit the model)
+The typical split for this project will be:
+* Training Set = 60-70% (to fit the model)
 * Validation Set = 10-20% (cross validation, compare models and choose hyperparameters)
 * Test Set = 20-30%
 
