@@ -9,6 +9,7 @@ class MultiPage:
         st.set_page_config(
             page_title = self.app_name,
             page_icon = "💻",
+            # layout="wide",
         )
     
     # Create class method to add pages to object
