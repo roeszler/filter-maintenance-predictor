@@ -18,80 +18,10 @@ The added value of a predictive model includes:
 * Increasing the expected useful life of equipment
 * Minimizing energy consumption
 
----
+<!-- ### Summary of Terms & Jargon -->
 
 <details>
-<summary style="font-size: 1.2rem;"><strong>Table of Contents:</strong> (Dropdown List)</summary>
-<!-- ## Table of Contents: -->
-
-### 1. [Business Case(s) Understanding](#1-business-case-understanding)
-* [Business Case Surveys](#business-case-surveys)
-* [Business Requirements](#business-requirements)
-
-### 2. [Data Understanding]()
-* [The Dataset](#the-dataset)
-* [Dataset Content](#dataset-content)
-* [Further Considerations](#further-data-considerations)
-
-### 3. [Initial Data Cleaning](#3-initial-data-cleaning-1)
-
-### 4. [Initial Data Engineering](#4-initial-data-engineering)
-* [Calculated Variables](#calculated-variables)
-* [Reordering Data Set References](#alteration-of-data_no-references)
-* [Splitting Datasets](#splitting-datasets)
-
-### 5. [Validating Hypothesis](#5-validating-hypothesis-1)
-
-### 6. [Mapping Business Requirements](#6-mapping-business-requirements-to-visualizations-and-ml-tasks-1) to Visualizations and ML tasks
-* Requirement 1 : [Predict Current RUL]()
-* Requirement 2 : [Optimal time to Change Filter]()
-* Requirement 3 : [Dust Cluster Grouping]()
-* Requirement 4 : [Correlations for Maximizing RUL]()
-
-### 7. ML Business Cases
-* Business Case 1 : [Predict Current RUL]()
-    * Model 1 - Regression Model
-       * Section for discussion of each Notebook on:
-            * Data Exploration NB
-            * [Correlation Study]() NB
-            * EDA on selected variables NB
-            * Conclusions and Next Steps NB
-    * Model 2 - Classification Model
-        * ...
-
-* Business Case 2 : [Predict Optimal Part Change]()
-    * Model 1 - Regression Model
-        * ...
-
-    * Model 2 - Classification Model
-        * ...
-
-* Business Case 3 : [Observe Dust Cluster Group]()
-    * Model 1 - Clustering Model
-        * ...
-    
-### 8. Data Visualization and Correlation Study
-* Business Case 4 : [RUL Correlations]()
-    * We will inspect the data related to the RUL.
-    * We will conduct a correlation study (Pearson and Spearman) to understand better how the variables are correlated to RUL.
-    * We will plot the main variables against RUL to visualize insights.
-
-### 9. [Display, Deliver, Communicate]()
-* [API]()
-* [Dashboard Delivery (Streamlit)]()
-    * Page 1: [Quick project summary]()
-    * Page 2: [Replacement Part Predictor]()
-    * Page 3: [Project Hypothesis and Validation]()
-    * Page 4: [Predict Differential Pressure Model]()
-    * Page 5: [Predict Replacement Timing Model]()
-    * Page 6: [Cluster Analysis Model]() (what groups this occurs in)
-    * Page 7: [Maximizing Useful Life Study]()
-
-</details>
-
----
-
-### Summary of Terms & Jargon
+<summary style="font-size: 1.2rem;"><strong>Summary of Terms & Jargon</strong> (Dropdown List)</summary>
 
 * **The client** is the business we are providing a Machine Learning (ML) solution for.
 * **The stakeholder** is a team, business or entity involved with the development of the machine learning model.
@@ -108,54 +38,20 @@ The added value of a predictive model includes:
 * **Right censored data** is where “failure” has/will occur after the recorded time.
 * **Zone of Failure** is the last 10% of RUL for that replacement part.
 
+</details>
 
-## 1. Business Case Understanding
+## Dataset Content
 
-As a Data Analyst, we have been requested by the Power Technique division (the client) to provide actionable insights and data-driven recommendations to a corporation that manufactures industrial tools and equipment. 
+The dataset is sourced from [Kaggle](https://www.kaggle.com/datasets/prognosticshse/preventive-to-predicitve-maintenance) performed by Hagmeyer et al. (2021) at the Hochschule Esslingen University of Applied Sciences.
 
-This client has a substantial customer base in oil and gas and offshore industries, as well as power plants and surface and underground mining. They are interested in promoting the management of preventative maintenance and understanding how the industrial sales team could better interact with prospects to the benefits of transitioning toward predictive maintenance. The client has shared the data in two files:  
+This has been shared in two files:  
 
 * **Train_Data.csv** - 50% of the data without RUL to fit or train the model.
 * **Test_Data.csv** - 50% of the data with RUL with the actual recorded values of time when the experiment exceeded the threshold.
 
 The data is segmented into 50 life tests (data bins). The amount of observations in each bin varies depending on the input variables and a random time when the tail of the data was removed to produce a [right censored](#right-censored-data) dataset.
 
-### Business Case Surveys 
-To determine the number and depth of ML Models required to meet the stakeholders requirements, an understanding of the business needs and wants needs to be obtained. This needs to contain a clear expression of the requirements that stakeholders need to be solved. 
-
-This process is developed in a **business case** that can be applied to each ML model. These consider:
-* The Model objective
-* The Outcome 
-* The Metrics 
-* The Output
-* The Heuristic Information (ie calculated guesses, trial and error or rules of thumb)
-* The Training data 
-* Dashboard Design
-
-The information for this process has been collected from the stakeholders as a Survey - [Business Case Questionnaire](https://docs.google.com/forms/d/e/1FAIpQLSfIjxD0Ki9793LTQ2szr3-qWKXUsMbQS1AhM80BCAvltxmu4A/viewform) and individually summarized in the attached [Business Case Understanding](https://docs.google.com/document/d/1PnWhRg7F-0idx_qIOnzNXumI0he5jXNLqjbDqvul9kY/edit?usp=sharing) document.
-
-### Business Requirements
-From the above process, we confirm that stakeholders are interested in: 
-1. Using a predictive model to **determine the current Reaming Useful Life (RUL)** of any given filter (replaceable part) and indicate if a filter is currently **useable** or **not-useable**.
-
-2. The solution should indicate **the optimal time to change an air filter**, in RUL units. 
-    * i.e. Confirm the industry rule of thumb to replace at a 10% RUL zone is correct or does the data indicate something else?
-    * Optimal time is considered the cost benefit trade off between maximizing useful life and minimizing the risk of failure.
-
-3. If a filter fails, or fails prematurely, **which dust type cluster** does it belong to?
-
-4. **Understanding the patterns** from the filter degradation process to reveal the most relevant factors that influence the time that a replacement part will fail and **which factors could extend its lifespan**?
-
-#### As a Data Practitioner, we are additionally interested in:
-5. Making the most of the not-to-failure (right-censored) test data.
-
-These requirements can now be evaluated against the dataset provided to devise the type of ML models to be delivered by this project.
-
-## 2. Data Understanding
-### The Dataset
-* The dataset is sourced from [Kaggle](https://www.kaggle.com/datasets/prognosticshse/preventive-to-predicitve-maintenance) performed by Hagmeyer et al. (2021) at the Hochschule Esslingen University of Applied Sciences.
-### Dataset Content
-#### Summarized in the table below, the raw data set includes information about:
+#### Summarized in the table below, the raw data set includes information about its content:
 <details>
 <summary style="font-size: 1rem;"><strong>Test Classification measures</strong></summary>
 
@@ -208,7 +104,7 @@ These requirements can now be evaluated against the dataset provided to devise t
 | **Dust** | 3 x types of ISO_12130 standardized dust ( A2 Fine, A3 Medium, A4 Coarse) | g/cm<sup>3</sup> | Independent | String / Discrete Number |
 | **RUL** | Remaining Useful Life | Relative Units (ie 1 unit = 1 day) | Dependent | Floating point / Continuous |
 
-### Further Data Considerations
+### Considerations and Calculations:
 #### **Filter medium**
 The material used to filter the dust samples has been standardised across all tests. As a constant, it was not recorded as part of the datasets. Its properties were:
 
@@ -235,13 +131,6 @@ Differential pressure, the measure of the change in air pressures before and aft
 
 As the variable that a user would want to learn patterns, uncover relationships and predict using the rest of the dataset, Differential Pressure has been chosen as the primary **Target variable** for initial investigations.
 
-## 3. Initial Data Cleaning 
-Initial observation of the data reveals it is clean. There are no repeated or missing values. The df_train data set has been supplied without RUL observations as part of the testing and validation process requested by the owner.
-
-Outside of the following initial data engineering, **the supplied dataset is considered clean**.
-
-## 4. Initial Data Engineering
-As supplied, the dataset is made up of variables that can be used to calculate measures that are potentially useful indicators to the end user (Remaining Useful Life is one of these). To include these in the data to be analyzed, the following additional calculations have been made: 
 ### Quantitative Calculations
 | Variable | Meaning | Units | Data Format | Data Type |
 |---|---|---|---|---|
@@ -380,8 +269,8 @@ Bins that sit further away from the measures of central tendency will be conside
 
 The primary purpose of splitting the dataset into train, test and validation sets is to prevent the model(s) from overfitting. There is no optimal split percentage, however we would typically split the data in a way that suits the requirements and meets the model’s needs.
 
-The typical split for this project will be:
-* Training Set = 60-70% (to fit the model)
+Ideally, the split of these subsets from a single dataset would be:
+* Training Set = 70-80% (to fit the model)
 * Validation Set = 10-20% (cross validation, compare models and choose hyperparameters)
 * Test Set = 20-30%
 
@@ -432,10 +321,49 @@ x_train, x_test, y_train, y_test, X_validate, y_validate = train_test_split(x, y
 
 </details>
 
-## 5. Validating Hypothesis
-### Hypothesis and how to validate?
 
-<!-- 1 - We suspect customers are churning with **low tenure** levels. -->
+
+## Business Requirements
+
+As a Data Analyst, we have been requested by the Power Technique division (the client) to provide actionable insights and data-driven recommendations to a corporation that manufactures industrial tools and equipment. 
+
+This client has a substantial customer base in oil and gas and offshore industries, as well as power plants and surface and underground mining. They are interested in promoting the management of preventative maintenance and understanding how the industrial sales team could better interact with prospects to the benefits of transitioning toward predictive maintenance.
+
+### Business Case Surveys 
+To determine the number and depth of ML Models required to meet the stakeholders requirements, an understanding of the business needs and wants needs to be obtained. This needs to contain a clear expression of the requirements that stakeholders need to be solved. 
+
+This process is developed in a **business case** that can be applied to each ML model. These consider:
+* The Model objective
+* The Outcome 
+* The Metrics 
+* The Output
+* The Heuristic Information (ie calculated guesses, trial and error or rules of thumb)
+* The Training data 
+* Dashboard Design
+
+The information for this process has been collected from the stakeholders as a Survey - [Business Case Questionnaire](https://docs.google.com/forms/d/e/1FAIpQLSfIjxD0Ki9793LTQ2szr3-qWKXUsMbQS1AhM80BCAvltxmu4A/viewform) and individually summarized in the attached [Business Case Understanding](https://docs.google.com/document/d/1PnWhRg7F-0idx_qIOnzNXumI0he5jXNLqjbDqvul9kY/edit?usp=sharing) document.
+
+### Business Requirements
+
+From the above process, we confirm that stakeholders are interested in: 
+1. Using a predictive model to **determine the current Reaming Useful Life (RUL)** of any given filter (replaceable part) and indicate if a filter is currently **useable** or **not-useable**.
+
+2. The solution should indicate **the optimal time to change an air filter**, in RUL units. 
+    * i.e. Confirm the industry rule of thumb to replace at a 10% RUL zone is correct or does the data indicate something else?
+    * Optimal time is considered the cost benefit trade off between maximizing useful life and minimizing the risk of failure.
+
+3. If a filter fails, or fails prematurely, **which dust type cluster** does it belong to?
+
+4. **Understanding the patterns** from the filter degradation process to reveal the most relevant factors that influence the time that a replacement part will fail and **which factors could extend its lifespan**?
+
+#### As a Data Practitioner, we are additionally interested in:
+5. Making the most of the not-to-failure (right-censored) test data.
+
+These requirements can now be evaluated against the dataset provided to devise the type of ML models to be delivered by this project.
+
+---
+
+## Hypothesis and how to validate?
 * We suspect a filter still has a useable remaining life
     * A **Boolean test model** can help with this indication
 * We suspect Remaining Useful Life is directly correlated to **dust feed**.
@@ -492,7 +420,8 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 * Logistic Regression Algorithm
 * Native Bayes Algorithm -->
 
-## 6. Mapping Business Requirements to Visualizations and ML tasks
+
+## The rationale to map the business requirements to the Data Visualizations and ML tasks
 
 * **Requirement 1 :** [Predict Current RUL]() : Classification, Regression, Cluster and Data Analysis
     * We want to **predict the RUL of a filter** and receive a binary response to indicate a filter as **useable** or **not-useable**.
@@ -510,8 +439,8 @@ The data is predominantly comprised of **continuous** data in **equal proportion
     * We will conduct a correlation study (Pearson and Spearman) to understand better how the variables are correlated to RUL.
     * We will plot the main variables against RUL to visualize insights.
 
-## 7. The ML Business Cases
 
+## ML Business Case
 ### Business Case 1 : [Predict Current RUL]()
 #### Regression Model
 * Section for discussion of each Notebook on:
@@ -538,12 +467,10 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 #### Correlation Study
 * We will inspect the data related to the RUL.
 * We will conduct a correlation study (Pearson and Spearman) to understand better how the variables are correlated to RUL.
-* We will plot the main variables against RUL to visualize insights.
+* We will plot the main variables against RUL to visualize insights. 
 
-## 9. Visualization, Delivery and Communication
-### [API]()
-...
-### [Dashboard Delivery (Streamlit)]()
+## Dashboard Design
+
 * Page 1: [Quick project summary]()
 
 * Page 2: [Replacement Part Predictor]()
@@ -558,9 +485,46 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 
 * Page 7: [Maximizing Useful Life Study]()
 
-## 10. Credits
+<!-- * List all dashboard pages and their content, either blocks of information or widgets, like buttons, checkboxes, images, or any other item that your dashboard library supports.
+* Later, during the project development, you may revisit your dashboard plan to update a given feature (for example, at the beginning of the project you were confident you would use a given plot to display an insight but subsequently you used another plot type). -->
 
-### Content
+
+
+## Unfixed Bugs
+* You will need to mention unfixed bugs and why they were not fixed. This section should include shortcomings of the frameworks or technologies used. Although time can be a significant variable to consider, paucity of time and difficulty understanding implementation is not a valid reason to leave bugs unfixed.
+
+## Deployment
+### Heroku
+
+* The App live link is: https://YOUR_APP_NAME.herokuapp.com/ 
+* The project was deployed to Heroku using the following steps.
+
+1. Log in to Heroku and create an App
+2. At the Deploy tab, select GitHub as the deployment method.
+3. Select your repository name and click Search. Once it is found, click Connect.
+4. Select the branch you want to deploy, then click Deploy Branch.
+5. The deployment process should happen smoothly if all deployment files are fully functional. Click now the button Open App on the top of the page to access your App.
+
+
+## Main Data Analysis and Machine Learning Libraries
+* Here you should list the libraries you used in the project and provide an example(s) of how you used these libraries.
+
+* scikit-learn
+* pandas
+* 
+
+
+## Credits 
+
+<!-- * In this section, you need to reference where you got your content, media and extra help from. It is common practice to use code from other repositories and tutorials, however, it is important to be very specific about these sources to avoid plagiarism. 
+* You can break the credits section up into Content and Media, depending on what you have included in your project.  -->
+
+### Content 
+
+<!-- - The text for the Home page was taken from Wikipedia Article A
+- Instructions on how to implement form validation on the Sign-Up page was taken from [Specific YouTube Tutorial](https://www.youtube.com/)
+- The icons in the footer were taken from [Font Awesome](https://fontawesome.com/) -->
+
 * Hosted at [Heroku](https://www.heroku.com/platform).
 * Repository and issue management features provided at [GitHub](https://github.com/roeszler/filter-maintenance-predictor).
 * Developed using:
@@ -569,8 +533,18 @@ The data is predominantly comprised of **continuous** data in **equal proportion
     * The [Jupiter Notebooks](https://jupyter.org/) interface
 
 ### Media
+
+<!-- - The photos used on the home and sign-up page are from This Open-Source site
+- The images used for the gallery page were taken from this other open-source site -->
+
 * Remaining Useful Life image sourced from [Stratadata](https://www.stratada.com/remaining-useful-life-rul-prediction/) Nov 2022.
+* Industrial filter image sourced from [forstafilters](https://www.forstafilters.com/wp-content/uploads/2014/06/Forsta_High_Res.jpg) Nov 2022.
+
+
+## Acknowledgements (optional)
+* Thank the people that provided support through this project.
 
 ---
 __COPYRIGHT NOTICE__ :
  *The Filter Maintenance predictor site is a functional program intended for educational purposes at the time of coding. Notwithstanding, it has been written as a proof of concept and invitation to treat for employers and stakeholders into the future. Copyrights for code, ideas, concepts and materials strictly lies with Stuart Roeszler © 2022. All rights reserved.*
+ 
