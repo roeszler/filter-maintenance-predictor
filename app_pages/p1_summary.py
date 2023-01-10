@@ -11,8 +11,8 @@ def page1_body():
     #     ('Email', 'Home phone', 'Mobile phone'))
     # st.write('You selected:', option)
 
-    st.write(
-        f'### Project Summary\n'
+    st.subheader(
+        f'Project Summary\n'
         # f'Page 1'
         )
     st.image(filter_image, caption='180 Series ForstaFilter', width=400)
@@ -50,23 +50,45 @@ def page1_body():
         )
     
     # copied from README file - 'Business Requirements' section
+    st.success('**Project Business Requirements**')
     st.success(
-        f'**Project Business Requirements**\n'
-        f'1. The client is interested in understanding the patterns from the customer base '
-        f'so that the client can learn the most relevant variables that are correlated to a '
-        f'churned customer.\n\n'
+        f'1. The client is interested in understanding the patterns from a controlled testing '
+        f'procedure so that they can **predict the current Reaming Useful Life (RUL) of any given '
+        f'replaceable part** (in this case an industrial air filter).\n\n'
+        )
 
-        f'2. The client is interested in determining what are the primary features relating to RUL. '
-        f'If so, the client is interested to know when the RUL reaches the last 10% of its remaining useful life. In addition, the client is '
-        f'interested in learning the RUL for each type of dust in the testing database. '
-        f'Based on that, present potential factors that could maintain and/or bring  '
-        f'the prospect to a maximize RUL.'
+    st.write(
+    f'_From this prediction, the client hopes to make a determination of when replaceable '
+    f'part is likely to reach the final 10% of its remaining useful life (known as the zone '
+    f'of failure)_.\n\n'
+    )
+
+    st.success(
+        f'2. The client is interested in determining what **the primary features that correlate to RUL**. ')
+    
+    st.write(
+        f'_From this analysis, the client is interested in calculating the RUL for each type of dust '
+        f'as specified in the testing database_.\n\n'
         )
     
     # Link to README file, so the users can have access to full project documentation
-    st.write(
+    st.warning(
         f'**For additional information, please visit the ML projects '
         f'[README](https://github.com/roeszler/filter-maintenance-predictor/blob/main/README.md) file.**')
     
     # st.snow()
     # st.balloons()
+
+    # st.subheader('This is a subheader')
+    # st.subheader('A subheader with _italics_ :blue: [blue] and emojis :sunglasses:')
+    # st.markdown('Streamlit is **_really_ cool**.')
+    # st.markdown("This text is :red[colored red], and this is **:blue[colored]** and bold.")
+    # st.markdown(":green[$\sqrt{x^2+y^2}=1$] is a Pythagorean identity. :pencil:")
+
+    # st.caption(
+    #     f'From this prediction, the client hopes to make a determination of when replaceable '
+    #     f'part is likely to reach the final 10% of its remaining useful life (known as the zone '
+    #     f'of failure).\n\n')
+
+    # st.caption('This is a string that explains something above.')
+    # st.caption('A caption with _italics_ :blue[colors] and emojis :sunglasses:')
