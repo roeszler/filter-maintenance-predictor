@@ -1,4 +1,4 @@
-''' Page answers business requirement 2 '''
+""" Page answers business requirement 2 """
 import plotly.express as px
 import numpy as np
 import streamlit as st
@@ -80,10 +80,6 @@ def page6_body():
 # FUNCTIONS
 # function created using '06_Filter_Feature_Study' notebook code - "Variables Distribution by RUL" section
 def dust_per_variable(df_eda, target_var):
-    
-    # # target_var = 'Dust_ISO 12103-1, A2 Fine Test Dust'
-    # # # target_var = 'Dust_ISO 12103-1, A3 Medium Test Dust'
-    # target_var = 'Dust_ISO 12103-1, A4 Coarse Test Dust'
 
     for col in df_eda.drop([target_var], axis=1).columns.to_list():
         # if df_eda[col].dtype == 'object':
@@ -97,25 +93,22 @@ def dust_per_variable(df_eda, target_var):
 # function created using '06_Filter_Feature_Study' notebook code - "Variables Distribution by RUL" section
 def plot_categorical(df, col, target_var):
 
-    plt.figure(figsize=(12, 5))
+    fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(12, 5))
     sns.countplot(data=df, x=col, hue=target_var, order=df[col].value_counts().index)
     plt.xticks(rotation=90)
     plt.title(f"{col}", fontsize=20, y=1.05)
-    plt.show()
+    st.pyplot(fig)
 
 
 # function created using '06_Filter_Feature_Study' notebook code - "Variables Distribution by RUL" section
 def plot_numerical(df, col, target_var):
-    plt.figure(figsize=(8, 5))
+    fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(12, 5))
     sns.histplot(data=df, x=col, hue=target_var, kde=True, element="step")
     plt.title(f"{col}", fontsize=20, y=1.05)
-    plt.show()
+    st.pyplot(fig)
 
 # function created using '06_Filter_Feature_Study' notebook code - "Parallel Plot" section
 def parallel_plot_rul(df_eda):
-    # # Load Data
-    # df_ohe = load_ohe_data()
-    # df_eda = df_ohe.filter(vars_to_study + ['RUL'])
 
     # hard coded from "disc.binner_dict_['RUL']"" result,
     tenure_map = [-np.inf, 31, 62, 93, 124, 155, 186, 217, 248, 279, np.inf]
@@ -137,6 +130,7 @@ def parallel_plot_rul(df_eda):
 
     df_parallel['RUL'] = df_parallel['RUL'].replace(LabelsMap)
     fig = px.parallel_categories(
-        df_parallel, color='Dust_feed', width=750, height=500)
+        df_parallel, color='Dust_feed')
     # to render chart
+    # st.pyplot(fig)
     st.plotly_chart(fig)
