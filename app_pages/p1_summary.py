@@ -1,3 +1,4 @@
+""" Project Summary Page """
 import streamlit as st
 from PIL import Image
 
