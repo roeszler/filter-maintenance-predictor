@@ -4,6 +4,7 @@ import numpy as np
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
+# %matplotlib inline
 
 from src.data_management import load_filter_test_data, load_ohe_data
 from feature_engine.discretisation import ArbitraryDiscretiser
@@ -65,11 +66,12 @@ def page6_body():
     df_eda = df_ohe.filter(vars_to_study + ['RUL'])
 
     # Individual plots per variable
-    if st.checkbox('Remaining Useful Life per Variable'):
-        rul_per_variable(df_eda)
+    target_var = st.selectbox('Dust Type per Variable?', ('Dust_ISO 12103-1, A2 Fine Test Dust', 'Dust_ISO 12103-1, A3 Medium Test Dust', 'Dust_ISO 12103-1, A4 Coarse Test Dust'))
+    if st.checkbox('Run Variable Plot'):
+        dust_per_variable(df_eda, target_var)
     
     # Parallel plot
-    if st.checkbox('Parallel Plot of important variables'):
+    if st.checkbox('Run Parallel Plot of important variables to RUL'):
         st.write(
             f"* Information in bright orange and yellow indicates the profile of dust feed")
         parallel_plot_rul(df_eda)
@@ -77,12 +79,17 @@ def page6_body():
 
 # FUNCTIONS
 # function created using '06_Filter_Feature_Study' notebook code - "Variables Distribution by RUL" section
-def rul_per_variable(df_eda):
-    target_var = 'RUL'
+def dust_per_variable(df_eda, target_var):
+    
+    # # target_var = 'Dust_ISO 12103-1, A2 Fine Test Dust'
+    # # # target_var = 'Dust_ISO 12103-1, A3 Medium Test Dust'
+    # target_var = 'Dust_ISO 12103-1, A4 Coarse Test Dust'
 
     for col in df_eda.drop([target_var], axis=1).columns.to_list():
-        if df_eda[col].dtype == 'object':
-            plot_categorical(df_eda, col, target_var)
+        # if df_eda[col].dtype == 'object':
+        if df_eda[col].dtype == df_eda[target_var].dtype:
+            # plot_categorical(df_eda, col, target_var)
+            pass
         else:
             plot_numerical(df_eda, col, target_var)
 
