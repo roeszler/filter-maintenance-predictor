@@ -30,3 +30,5 @@ tzlocal==4.2
 validators==0.20.0
 watchdog==2.1.9
 xgboost==1.7.2
+
+joblib==1.2.0

@@ -12,12 +12,12 @@ def page5_body():
     st.write("This is page 5")
 
     # Version Selector
-    version = st.selectbox('Select Version:', ('v1', 'v2'))
+    version = st.selectbox('Select Version:', ('v1', 'v2', 'v3'))
     st.write('Current Version:', version)
 
     # load RUL pipeline files
     rul_pipe = load_pkl_file(
-        f"outputs/ml_pipeline/predict_rul/{version}/RandomForestRegressor_pipeline.pkl")
+        f"outputs/ml_pipeline/predict_rul/{version}/rfr_pipeline.pkl")
     # rul_labels_map = load_pkl_file(
     #     f"outputs/ml_pipeline/predict_rul/{version}/label_map.pkl")
     rul_feat_importance = plt.imread(
