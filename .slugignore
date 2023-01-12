@@ -1,37 +1,13 @@
 /documentation
 /jupyter_notebooks
 /inputs
-/outputs
-; /outputs/datasets/collection
-; /outputs/datasets/transformed/dfTransformedTotal.csv
-; /outputs/datasets/transformed/dfCombinedHybrid.csv
+; /outputs
+/outputs/datasets/collection
+/outputs/datasets/transformed/dfTransformedTotal.csv
+/outputs/datasets/transformed/dfCombinedHybrid.csv
+/outputs/ml_pipeline
 /.github
 /.vscode
 README.md
 *.psd
 *.pdf
-; /requirements.txt/altair==4.2.0
-; /requirements.txt/astor==0.8.1
-; /requirements.txt/backports.zoneinfo==0.2.1
-; /requirements.txt/base58==2.1.1
-; /requirements.txt/blinker==1.5
-; /requirements.txt/cachetools==5.2.0
-; /requirements.txt/click==7.1.2
-; /requirements.txt/joblib==1.2.0
-; /requirements.txt/kaggle==1.5.12
-; /requirements.txt/Pillow==9.3.0
-; /requirements.txt/pyarrow==10.0.1
-; /requirements.txt/pydeck==0.8.0
-; /requirements.txt/pytz-deprecation-shim==0.1.0.post0
-; /requirements.txt/pytz==2022.6
-; /requirements.txt/toml==0.10.2
-; /requirements.txt/toolz==0.12.0
-; /requirements.txt/tzdata==2022.7
-; /requirements.txt/tzlocal==4.2
-; /requirements.txt/validators==0.20.0
-; /requirements.txt/watchdog==2.1.9
-; /requirements.txt/joblib==1.2.0
-; /requirements.txt/MarkupSafe==2.0.1
-; /requirements.txt/Jinja2==3.1.1
-; /requirements.txt/imbalanced-learn==0.8.0
-; /requirements.txt/yellowbrick==1.3
