@@ -18,23 +18,31 @@ def page4_body():
 
     # load RUL pipeline files
     rul_pipe = load_pkl_file(
-        f"outputs/ml_pipeline/predict_rul/{version}/rfr_pipeline.pkl")
+        # f"outputs/ml_pipeline/predict_rul/{version}/rfr_pipeline.pkl")
+        f'deployed/rfr_pipeline.pkl')
     # rul_labels_map = load_pkl_file(
     #     f"outputs/ml_pipeline/predict_rul/{version}/label_map.pkl")
     rul_feat_importance = plt.imread(
-        f"outputs/ml_pipeline/predict_rul/{version}/features_importance.png")
+        # f"outputs/ml_pipeline/predict_rul/{version}/features_importance.png")
+        f'deployed/features_importance.png')
     X_train = pd.read_csv(
-        f"outputs/ml_pipeline/predict_rul/{version}/X_train.csv").dropna()
+        # f"outputs/ml_pipeline/predict_rul/{version}/X_train.csv")
+        f'deployed/X_train_deployed.csv')
     X_test = pd.read_csv(
-        f"outputs/ml_pipeline/predict_rul/{version}/X_test.csv").dropna()
+        # f"outputs/ml_pipeline/predict_rul/{version}/X_test.csv")
+        f'deployed/X_test_deployed.csv')
     y_train = pd.read_csv(
-        f"outputs/ml_pipeline/predict_rul/{version}/y_train.csv").dropna()
+        # f"outputs/ml_pipeline/predict_rul/{version}/y_train.csv")
+        f'deployed/y_train_deployed.csv')
     y_test = pd.read_csv(
-        f"outputs/ml_pipeline/predict_rul/{version}/y_test.csv").dropna()
+        # f"outputs/ml_pipeline/predict_rul/{version}/y_test.csv")
+        f'deployed/y_test_deployed.csv')
     X_validate = pd.read_csv(
-        f"outputs/ml_pipeline/predict_rul/{version}/X_validate.csv").dropna()
+        # f"outputs/ml_pipeline/predict_rul/{version}/X_validate.csv")
+        f'deployed/X_validate_deployed.csv')
     y_validate = pd.read_csv(
-        f"outputs/ml_pipeline/predict_rul/{version}/y_validate.csv").dropna()
+        # f"outputs/ml_pipeline/predict_rul/{version}/y_validate.csv")
+        f'deployed/y_validate_deployed.csv')
 
     st.write("### ML Prediction Pipeline: Remaining Useful Life")
     # display pipeline training summary conclusions
@@ -60,9 +68,9 @@ def page4_body():
         f"This increased the accuracy of the models and demonstrated how we would reduce model over or "
         f"under fitting. \n"
 
-        f"* The pipeline was tuned on **Dust Feed** rate, **Differential Pressure** and **Type of dust, "
-        f"using the train and test sets, derived from a hybrid dataset where all the tests without RUL "
-        f"were included with it calculated, if their test bin reached 600 pa or more. \n" 
+        f"* The pipeline was tuned on **Dust Feed** rate, **Differential Pressure** and **Type of dust**, "
+        f"using the train and test sets. A hybrid dataset was used where all the tests without RUL "
+        f"were calculated derivatively and included if their test bin reached **600 pa** or more. \n" 
         
         f"* We also demonstrated how to convert the target and predictor variables to classes within the "
         f"**Filter Feature Study** to answer Business Requirement 2. \n\n"
@@ -70,8 +78,8 @@ def page4_body():
     st.write("---")
 
     # show pipeline steps
-    st.write("* ML pipeline to predict RUL.")
-    st.write(rul_pipe)
+    st.write("* ML pipeline to predict RUL")
+    st.code(rul_pipe)
     st.write("---")
 
     # show best features

@@ -2,10 +2,6 @@
 /jupyter_notebooks
 /inputs
 /outputs
-; /outputs/datasets/collection
-; /outputs/datasets/transformed/dfTransformedTotal.csv
-; /outputs/datasets/transformed/dfCombinedHybrid.csv
-; /outputs/ml_pipeline
 /.github
 /.vscode
 README.md
