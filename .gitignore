@@ -11,4 +11,4 @@ kaggle.json
 /jupyter_notebooks
 /inputs
 /outputs
-/deployed
+# /deployed
