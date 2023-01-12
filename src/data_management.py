@@ -13,7 +13,8 @@ def load_filter_test_data():
 
 
 def load_ohe_data():
-    df_ohe = pd.read_csv(f'outputs/datasets/transformed/dfOhe.csv')
+    # df_ohe = pd.read_csv(f'outputs/datasets/transformed/dfOhe.csv')
+    df_ohe = pd.read_csv(f'deployed/dfOhe.csv')
     return df_ohe
 
 
