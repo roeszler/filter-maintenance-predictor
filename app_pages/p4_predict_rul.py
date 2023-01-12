@@ -9,6 +9,7 @@ from src.machine_learning.evaluate_sets import (
     )
 
 def page4_body():
+    """ Defines the p4_predict_rul page """
     # st.write("This is page 4")
 
     # Version Selector

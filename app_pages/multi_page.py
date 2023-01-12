@@ -1,3 +1,4 @@
+""" Page structures the streamlit defaults """
 import streamlit as st
 
 class MultiPage:

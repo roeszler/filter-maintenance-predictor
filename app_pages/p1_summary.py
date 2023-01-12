@@ -6,6 +6,7 @@ from PIL import Image
 filter_image = Image.open('static/img/Forsta_High_Res-2394418179.png')
 
 def page1_body():
+    """ Defines the p1_summary page """
 
     # option = st.selectbox(
     #     'How would you like to be contacted?',

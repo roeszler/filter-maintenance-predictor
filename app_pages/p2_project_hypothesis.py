@@ -1,6 +1,8 @@
+""" Page states the Project Hypotheses """
 import streamlit as st
 
 def page2_body():
+    """ Defines the p2_project_hypothesis page """
     # st.write('This is page 2')
     st.subheader('Project Hypothesis and Validation')
 
