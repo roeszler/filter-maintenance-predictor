@@ -9,8 +9,8 @@ import seaborn as sns
 from src.data_management import load_filter_test_data, load_ohe_data
 from feature_engine.discretisation import ArbitraryDiscretiser
 
-def page6_body():
-    st.write('This is page 6')
+def page5_body():
+    st.write('This is page 5')
 
     # load data
     df = load_filter_test_data()

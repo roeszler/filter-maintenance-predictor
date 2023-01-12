@@ -5,20 +5,20 @@ def page2_body():
     st.subheader('Project Hypothesis and Validation')
 
     # conclusions taken from '05 Modelling & Evaluation' and '06 Filter Feature' notebooks
-    st.info(
+    st.write(
         f'We suspect the Useful Life of a Filter shortens with **Dust Feed**'
     )
     st.success('**Correct**:'
         f'The correlation analysis at the Filter Feature Study supports this hypothesis. \n\n'
     )
     
-    st.info(
+    st.write(
         f'We suspect the Useful Life of a Filter is highly affected by **Flow rate**')
     
     st.success('**Correct**:'
         f'The correlation analysis at the Filter Feature Study supports this hypothesis. \n\n'
     )
-    st.info(
+    st.write(
         f'We suspect the Useful Life of a Filter is highly affected by **Dust type**')
     
     st.warning('**Mixed**:'
@@ -37,7 +37,7 @@ def page2_body():
         f'* A Filter Feature Study demonstrated that the variations in Dust Type filtered affect '
         f'its power to assist in the prediction of Remaining Useful Life.\n\n')
     
-    st.write(
+    st.info(
         f'* These insights will be referred to the business management and sales teams for further '
-        f'discussions and investigations.'
+        f'discussions, investigations required and conclusions.'
     )

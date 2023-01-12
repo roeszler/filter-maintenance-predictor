@@ -32,3 +32,7 @@ watchdog==2.1.9
 xgboost==1.7.2
 
 joblib==1.2.0
+MarkupSafe==2.0.1
+Jinja2==3.1.1
+imbalanced-learn==0.8.0
+yellowbrick==1.3
