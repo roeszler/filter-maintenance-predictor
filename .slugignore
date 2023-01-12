@@ -30,3 +30,8 @@ tzdata==2022.7
 tzlocal==4.2
 validators==0.20.0
 watchdog==2.1.9
+joblib==1.2.0
+MarkupSafe==2.0.1
+Jinja2==3.1.1
+imbalanced-learn==0.8.0
+yellowbrick==1.3
