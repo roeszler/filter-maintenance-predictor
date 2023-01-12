@@ -7,7 +7,8 @@ import joblib
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def load_filter_test_data():
     # df = pd.read_csv('outputs/datasets/transformed/dfCombinedHybrid.csv')
-    df = pd.read_csv('outputs/datasets/cleaned/dfCleanTotal.csv')
+    # df = pd.read_csv('outputs/datasets/cleaned/dfCleanTotal.csv')
+    df = pd.read_csv('deployed/dfCleanTotal.csv')
     return df
 
 
