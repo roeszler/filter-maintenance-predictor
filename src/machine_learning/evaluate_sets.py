@@ -1,7 +1,7 @@
 """ Functions for data evaluation """
 import streamlit as st
 import pandas as pd
-from sklearn.impute import SimpleImputer
+# from sklearn.impute import SimpleImputer
 from sklearn.metrics import (
     r2_score, mean_squared_error, mean_absolute_error,
     median_absolute_error, classification_report, confusion_matrix
@@ -79,3 +79,5 @@ def clf_performance(X_train, y_train, X_test, y_test, pipeline, label_map):
 
     st.info("Test Set")
     confusion_matrix_and_report(X_test, y_test, pipeline, label_map)
+
+

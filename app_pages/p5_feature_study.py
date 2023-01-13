@@ -4,10 +4,12 @@ import numpy as np
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
-# %matplotlib inline
 
 from src.data_management import load_filter_test_data, load_ohe_data
-from feature_engine.discretisation import ArbitraryDiscretiser
+from src.machine_learning.plot_sets import (
+    dust_per_variable, plot_categorical, plot_numerical, parallel_plot_rul
+    )
+
 
 def page5_body():
     """ Defines the p5_feature_study page """
@@ -37,7 +39,7 @@ def page5_body():
         st.write(
             f'* The dataset has {df.shape[0]} rows, {df.shape[1]} columns, '
             f'contained in {len(df["Data_No"].unique())} separate test bins.\n'
-            f'* Find the last observations of the last 6 bins below.')
+            f'* See 6 rows of the last observations in each bin.')
 
         st.write(df[df.Data_No != df.Data_No.shift(-1)].tail(6))
 
@@ -74,64 +76,5 @@ def page5_body():
     # Parallel plot
     if st.checkbox('Run Parallel Plot of important variables to RUL'):
         st.write(
-            f"* Information in bright orange and yellow indicates the profile of dust feed")
+            f'* Information in bright colors indicate the dust feed profiles')
         parallel_plot_rul(df_eda)
-
-
-# FUNCTIONS
-# function created using '06_Filter_Feature_Study' notebook code - "Variables Distribution by RUL" section
-def dust_per_variable(df_eda, target_var):
-
-    for col in df_eda.drop([target_var], axis=1).columns.to_list():
-        # if df_eda[col].dtype == 'object':
-        if df_eda[col].dtype == df_eda[target_var].dtype:
-            # plot_categorical(df_eda, col, target_var)
-            pass
-        else:
-            plot_numerical(df_eda, col, target_var)
-
-
-# function created using '06_Filter_Feature_Study' notebook code - "Variables Distribution by RUL" section
-def plot_categorical(df, col, target_var):
-
-    fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(12, 5))
-    sns.countplot(data=df, x=col, hue=target_var, order=df[col].value_counts().index)
-    plt.xticks(rotation=90)
-    plt.title(f"{col}", fontsize=20, y=1.05)
-    st.pyplot(fig)
-
-
-# function created using '06_Filter_Feature_Study' notebook code - "Variables Distribution by RUL" section
-def plot_numerical(df, col, target_var):
-    fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(12, 5))
-    sns.histplot(data=df, x=col, hue=target_var, kde=True, element="step")
-    plt.title(f"{col}", fontsize=20, y=1.05)
-    st.pyplot(fig)
-
-# function created using '06_Filter_Feature_Study' notebook code - "Parallel Plot" section
-def parallel_plot_rul(df_eda):
-
-    # hard coded from "disc.binner_dict_['RUL']"" result,
-    tenure_map = [-np.inf, 31, 62, 93, 124, 155, 186, 217, 248, 279, np.inf]
-
-    # sourced from '06_Filter_Feature_Study' notebook within the "Parallel Plot" section
-    disc = ArbitraryDiscretiser(binning_dict={'RUL': tenure_map})
-    df_parallel = disc.fit_transform(df_eda)
-
-    n_classes = len(tenure_map) - 1
-    classes_ranges = disc.binner_dict_['RUL'][1:-1]
-    LabelsMap = {}
-    for n in range(0, n_classes):
-        if n == 0:
-            LabelsMap[n] = f"<{classes_ranges[0]}"
-        elif n == n_classes-1:
-            LabelsMap[n] = f"+{classes_ranges[-1]}"
-        else:
-            LabelsMap[n] = f"{classes_ranges[n-1]} to {classes_ranges[n]}"
-
-    df_parallel['RUL'] = df_parallel['RUL'].replace(LabelsMap)
-    fig = px.parallel_categories(
-        df_parallel, color='Dust_feed')
-    # to render chart
-    # st.pyplot(fig)
-    st.plotly_chart(fig)

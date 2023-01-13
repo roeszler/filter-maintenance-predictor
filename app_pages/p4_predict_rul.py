@@ -7,16 +7,20 @@ from src.machine_learning.evaluate_sets import (
     clf_performance, regression_performance, regression_evaluation,
     regression_evaluation_plots
     )
+from sklearn.metrics import (
+    r2_score, mean_squared_error, mean_absolute_error,
+    median_absolute_error, classification_report, confusion_matrix
+    )
 
 def page4_body():
     """ Defines the p4_predict_rul page """
     # st.write("This is page 4")
 
-    # Version Selector
-    version = st.selectbox('Select Version:', ('v1', 'v2', 'v3'))
-    st.write('Current Version:', version)
+    # # Version Selector
+    # version = st.selectbox('Select Version:', ('v1', 'v2', 'v3'))
+    # st.write('Current Version:', version)
 
-    # load RUL pipeline files
+    # load RUL files
     rul_pipe = load_pkl_file(
         # f"outputs/ml_pipeline/predict_rul/{version}/rfr_pipeline.pkl")
         f'deployed/rfr_pipeline.pkl')
@@ -25,6 +29,9 @@ def page4_body():
     rul_feat_importance = plt.imread(
         # f"outputs/ml_pipeline/predict_rul/{version}/features_importance.png")
         f'deployed/features_importance.png')
+    rul_reg_evaluation = plt.imread(
+        # f"outputs/ml_pipeline/predict_rul/{version}/features_importance.png")
+        f'deployed/reg_eval_plot.png')
     X_train = pd.read_csv(
         # f"outputs/ml_pipeline/predict_rul/{version}/X_train.csv")
         f'deployed/X_train_deployed.csv')
@@ -44,7 +51,7 @@ def page4_body():
         # f"outputs/ml_pipeline/predict_rul/{version}/y_validate.csv")
         f'deployed/y_validate_deployed.csv')
 
-    st.write("### ML Prediction Pipeline: Remaining Useful Life")
+    st.subheader('ML Prediction Pipeline: Remaining Useful Life')
     # display pipeline training summary conclusions
     st.info(
         f"* We have an extremely strong Regressor model to predict RUL for a given "
@@ -78,27 +85,59 @@ def page4_body():
     st.write("---")
 
     # show pipeline steps
-    st.write("* ML pipeline to predict RUL")
+    st.info('ML pipeline to predict RUL')
     st.code(rul_pipe)
     st.write("---")
 
     # show best features
-    st.write("* The features the model was trained and their importance.")
+    st.info('The features the model was trained and their importance.')
     st.write(X_train.columns.to_list())
     st.image(rul_feat_importance)
     st.write("---")
 
+    # data inspection
+    st.info('Inspect Input Data')
+    version = st.selectbox('Select set:', ('X_train', 'y_train', 'X_test', 'y_test', 'X_validate', 'y_validate'))
+    df_sample = pd.read_csv(f'deployed/{version}_deployed.csv')
+    st.write(
+        f'* The dataset has {df_sample.shape[0]} rows, {df_sample.shape[1]} columns\n')
+    st.write(df_sample.head(6))
+    st.write('---')
+
     # evaluate performance on both sets
-    st.write("### Pipeline Performance")
+    st.subheader('Pipeline Performance')
+    st.image(rul_reg_evaluation)
+    st.info('Model Evaluation')
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write('Train Set')
+        st.image('https://res.cloudinary.com/yodakode/image/upload/YodaKode/freepik-com-Designed-by-stories-Freepik_wkfvq1.jpg')
+    with col2:
+        st.write('Test Set')
+        st.image('https://res.cloudinary.com/yodakode/image/upload/YodaKode/freepik-com-Designed-by-stories-Freepik_wkfvq1.jpg')
+
+
     # clf_performance(X_train=X_train, y_train=y_train,
     #                 X_test=X_test, y_test=y_test,
     #                 pipeline=rul_pipe,
     #                 label_map=rul_labels_map)
     
-    regression_performance(X_train=X_train, y_train=y_train,
-                    X_test=X_test, y_test=y_test,
-                    pipeline=rul_pipe)
-                    # label_map=rul_labels_map)
+    # regression_performance(X_train=X_train, y_train=y_train,
+    #                 X_test=X_test, y_test=y_test,
+    #                 pipeline=rul_pipe)
+    #                 # label_map=rul_labels_map)
     
-    regression_evaluation_plots(X=X_train, y=y_train, pipeline=rul_pipe)
-    regression_evaluation_plots(X=X_test, y=y_test, pipeline=rul_pipe)
+    # regression_evaluation_plots(X=X_train, y=y_train, pipeline=rul_pipe)
+    # regression_evaluation_plots(X=X_test, y=y_test, pipeline=rul_pipe)
+
+    # st.write('----')
+
+    # prediction = rul_pipe.predict(X_train)
+    # st.write('R² Score:', r2_score(y_train, prediction).round(4))
+
+    # # data inspection
+    # if st.checkbox('Inspect X_Test Data'):
+    #     st.write(
+    #         f'* The dataset has {X_test.shape[0]} rows, {X_test.shape[1]} columns\n')
+    #     st.write(X_test)
+    # st.write('---')
