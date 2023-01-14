@@ -91,10 +91,33 @@ def page4_body():
     # evaluate performance on both sets
     st.subheader('Pipeline Performance')
     
-    if st.checkbox('Regression Images'):
-        st.image(rul_reg_evaluation)
+    # if st.checkbox('Regression Images'):
+    #     st.image(rul_reg_evaluation)
 
-    if st.checkbox('Model Evaluation Metrics'):
+    # if st.checkbox('Model Evaluation Metrics'):
+    #     col1, col2 = st.columns(2)
+    #     with col1:
+    #         st.write('Train Set')
+    #         # st.image('https://res.cloudinary.com/yodakode/image/upload/YodaKode/freepik-com-Designed-by-stories-Freepik_wkfvq1.jpg')
+    #         st.image(reg_eval_pic_train, width=600)
+    #     with col2:
+    #         st.write('Test Set')
+    #         # st.image('https://res.cloudinary.com/yodakode/image/upload/YodaKode/freepik-com-Designed-by-stories-Freepik_wkfvq1.jpg')
+    #         st.image(reg_eval_pic_test, width=600)
+
+    # if st.checkbox('Cross Validation Metrics'):
+    #     st.image(cross_val_plot)
+    #     st.image(reg_eval_pic_validate)
+
+    data = st.radio( 'Select Evaluation Data to View',
+        ('Model Evaluation Metrics', 'Model Regression Images', 'Cross Validation Metrics')
+        )
+
+    if data == 'Model Regression Images':
+        st.write('You selected Regression Images.')
+        st.image(rul_reg_evaluation)
+    elif data == 'Model Evaluation Metrics':
+        st.write('You selected Model Evaluation Metrics')
         col1, col2 = st.columns(2)
         with col1:
             st.write('Train Set')
@@ -104,7 +127,7 @@ def page4_body():
             st.write('Test Set')
             # st.image('https://res.cloudinary.com/yodakode/image/upload/YodaKode/freepik-com-Designed-by-stories-Freepik_wkfvq1.jpg')
             st.image(reg_eval_pic_test, width=600)
-
-    if st.checkbox('Cross Validation Metrics'):
+    else:
+        st.write('You selected Cross Validation Metrics')
         st.image(cross_val_plot)
         st.image(reg_eval_pic_validate)

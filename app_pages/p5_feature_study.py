@@ -70,11 +70,13 @@ def page5_body():
 
     # Individual plots per variable
     target_var = st.selectbox('Dust Type per Variable?', ('Dust_ISO 12103-1, A2 Fine Test Dust', 'Dust_ISO 12103-1, A3 Medium Test Dust', 'Dust_ISO 12103-1, A4 Coarse Test Dust'))
-    if st.checkbox('Run Variable Plot'):
+    if st.checkbox('Run Variable Plots'):
         dust_per_variable(df_eda, target_var)
     
     # Parallel plot
     if st.checkbox('Run Parallel Plot of important variables to RUL'):
         st.write(
-            f'* Information in bright colors indicate the dust feed profiles')
+            f'* Note the bight colored **dust feed** information indicate the dust feed profiles that '
+            f'have the greatest effect on remaining useful life. '
+            f'The higher the feed rate, the greater negative effect on remaining useful life.')
         parallel_plot_rul(df_eda)
