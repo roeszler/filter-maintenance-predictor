@@ -26,6 +26,8 @@ def page4_body():
     rul_reg_evaluation = plt.imread(f'deployed/reg_eval_plot.png')
     reg_eval_pic_test = plt.imread(f'deployed/reg_eval_pic_test.png')
     reg_eval_pic_train = plt.imread(f'deployed/reg_eval_pic_train.png')
+    reg_eval_pic_validate = plt.imread(f'deployed/reg_eval_pic_validate.png')
+    cross_val_plot = plt.imread(f'deployed/cross_val_plot.png')
     X_train = pd.read_csv(f'deployed/X_train_deployed.csv')
     X_test = pd.read_csv(f'deployed/X_test_deployed.csv')
     y_train = pd.read_csv(f'deployed/y_train_deployed.csv')
@@ -36,12 +38,12 @@ def page4_body():
     st.subheader('ML Prediction Pipeline: Remaining Useful Life')
     # display pipeline training summary conclusions
     st.info(
-        f"* We have an extremely strong Regressor model to predict RUL for a given "
+        f"* We have a strong Regressor model to predict RUL for a given "
         f"filter and/or dust type and/or an accurate way to measure differential pressure. "
         f"The model more than satisfied the business and project requirement of: an R² Score "
         f"> **0.7** of on **both the train and test sets**. \n"
         
-        f"* The regressor performance was greater than +0.96 on both sets.\n"
+        f"* The regressor performance was greater than +0.94% on train, test and validation sets.\n"
         f"* We notice that 'Coarse dust' class and 'Dust feed' rate also adds reasonable "
         f"performance. The absence of definitive information on filter type is a "
         f"limitation of this project.\n"
@@ -102,3 +104,7 @@ def page4_body():
             st.write('Test Set')
             # st.image('https://res.cloudinary.com/yodakode/image/upload/YodaKode/freepik-com-Designed-by-stories-Freepik_wkfvq1.jpg')
             st.image(reg_eval_pic_test, width=600)
+
+    if st.checkbox('Cross Validation Metrics'):
+        st.image(cross_val_plot)
+        st.image(reg_eval_pic_validate)

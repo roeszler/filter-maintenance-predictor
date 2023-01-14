@@ -1,6 +1,7 @@
 """ Functions for data evaluation """
 import streamlit as st
 import pandas as pd
+import numpy as np
 # from sklearn.impute import SimpleImputer
 from sklearn.metrics import (
     r2_score, mean_squared_error, mean_absolute_error,
@@ -81,3 +82,65 @@ def clf_performance(X_train, y_train, X_test, y_test, pipeline, label_map):
     confusion_matrix_and_report(X_test, y_test, pipeline, label_map)
 
 
+def consolidate_df_test_dust(df_test):
+    # Calculating standard deviation
+    std_group = df_test.groupby('Data_No')['Differential_pressure'].std()
+    df_test['std_DP'] = df_test['Data_No'].map(std_group)
+
+    # Calculating coefficient of variation
+    var_group = df_test.groupby('Data_No')['Differential_pressure'].apply(lambda data: np.std(data, ddof=1) / np.mean(data, axis=0) * 100)
+    df_test['cv_DP'] = df_test['Data_No'].map(var_group)
+
+    # Calculating median
+    median_group = df_test.groupby('Data_No')['Differential_pressure'].median()
+    df_test['median_DP'] = df_test['Data_No'].map(median_group)
+
+    # Get count of entries for each Data_No
+    bin_sum = df_test.groupby('Data_No')['Data_No'].count()
+
+    # Map the count of entries for each Data_No
+    df_test['bin_size'] = df_test['Data_No'].map(bin_sum)
+
+    # Filter rows with Dust
+    dust_A3 = df_test[df_test['Dust'] == 1.025]
+    dust_A4 = df_test[df_test['Dust'] == 1.200]
+
+    # Select rows which are not the last ones
+    filter_A3 = dust_A3[dust_A3.Data_No != dust_A3.Data_No.shift(-1)]
+    filter_A4 = dust_A4[dust_A4.Data_No != dust_A4.Data_No.shift(-1)]
+
+    # Sort values by filter_balance in ascending order
+    df_test_A3 = filter_A3.sort_values(by='filter_balance', ascending=True)
+    df_test_A4 = filter_A4.sort_values(by='filter_balance', ascending=True)
+
+    # Compute cumulative sum
+    df_test_A3['c_sum'] = df_test_A3['bin_size'].cumsum()
+    df_test_A4['c_sum'] = df_test_A4['bin_size'].cumsum()
+
+    bin_no = df_test_A3['Data_No'].head(3)
+    dn_fb = df_test_A3.loc[df_test_A3['Data_No'].isin(bin_no), 'Data_No'].head(14).sort_values(ascending=True).reset_index(drop=True)
+    df_test_cleaned_A3 = df_test[df_test['Data_No'].isin(bin_no)]
+    df_test_cleaned_A3.head(14).style.hide(['Time', 'Dust_feed', 'Flow_rate', 'Dust', 'mass_g', 'cumulative_mass_g', 'Tt'], axis="columns")
+
+    # Repeat fot A4 Coarse Dust
+    bin_no = df_test_A4['Data_No'].head(4)
+    bin_no.to_frame()
+
+    #get all values from df_test that are in bin_no
+    df_test_copy = df_test
+    df_test_cleaned_A4 = df_test_copy[df_test_copy['Data_No'].isin(bin_no)]
+
+    #create dataframes for each dust class
+    dust_A2 = df_test[df_test['Dust'] == 0.900]
+    dust_A3 = df_test_cleaned_A3
+    dust_A4 = df_test_cleaned_A4
+
+    #concatenate the dataframes
+    df_test_compare = pd.concat([dust_A2, dust_A3, dust_A4], ignore_index = True)
+
+    #replace df_test with df_test_compare
+    df_test = df_test_compare
+
+    #plot a bar graph of the dust classes
+    category_totals = df_test_compare.groupby('Dust')['Differential_pressure'].count().sort_values()
+    category_totals.plot(kind="barh", title='Proportion of Dust Classes in "df_test_compare"\n', xlabel='\nObservations', ylabel='Dust Class')

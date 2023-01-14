@@ -21,7 +21,7 @@ y_validate = pd.read_csv(f'deployed/y_validate_deployed.csv')
 def rul_regression_predictor():
     """ Predictor based on Random Forest Regression """
     st.subheader(f'Remaining Useful Life (RUL)\n_(in relative time units)_:')
-    X_diff_p = st.slider('Differential Pressure', 0.0, 500.0)
+    X_diff_p = st.slider('Differential Pressure', 0.0, 540.0)
     X_dust_f = st.slider('Dust Feed', 60.0, 380.0)
     X_dust_s = st.selectbox('Dust Grain Size', ('0.9', '1.025', '1.2'))
     st.write('---')
