@@ -1,4 +1,5 @@
-# The Machine Learning (ML) Project 
+# Filter Replacement Predictor
+## A Machine Learning (ML) Project 
 
 Considering a fictitious business case where predictive analytics can be applied to a real life project. The scenario occurs in an industrial workplace looking to employ a **predictive maintenance model** in place of a **preventative** one as the primary strategy to maintain heavy equipment. 
 
@@ -6,7 +7,10 @@ This dataset has been selected as an example of training a Machine Learning mode
 
 The project is aimed to provide an example of added value to a variety of industrial users looking to optimize maintenance programs and or industrial processes that require some sort of filtering, like the screening for ore concentrate, gas particles, materials in water or other slurries.
 
-The added value of a predictive model includes:
+<details>
+<summary style="font-size: 1.2rem;"><strong>Added value of a Predictive Model</strong><br><i style="font-size: 1rem;">(Dropdown List)</i></summary>
+<br>
+
 * Identify patterns that lead to potential problems or failures
 * Identifying trends to aid future business decisions and/or investments
 * Confidently predict the frequency of required maintenance
@@ -18,10 +22,12 @@ The added value of a predictive model includes:
 * Increasing the expected useful life of equipment
 * Minimizing energy consumption
 
+</details>
+
 <!-- ### Summary of Terms & Jargon -->
 
 <details>
-<summary style="font-size: 1.2rem;"><strong>Summary of Terms & Jargon</strong> (Dropdown List)</summary>
+<summary style="font-size: 1.2rem;"><strong>Summary of Terms & Jargon</strong></summary>
 
 * **The client** is the business we are providing a Machine Learning (ML) solution for.
 * **The stakeholder** is a team, business or entity involved with the development of the machine learning model.
@@ -29,6 +35,7 @@ The added value of a predictive model includes:
 * **A prospect** is a potential new customer
 * **The project** is the plan and delivery of a ML solution to meet a variety of requirements to Predict Maintenance of a replaceable part.
 * The **replaceable part** for this project, is considered a filter mat made out of randomly oriented, non-woven fibre material.
+
 * **Differential Pressure** is a measure of the change in air pressures before and after the filtering process.
 * **RUL** is Remaining Useful Life; the amount of time an asset (machine, replaceable part, filter, etc.) is likely to operate before it requires repair or replacement.
 * The **filter degradation process** is the gradual performance decline over time, which can be quantified and used by statistical models.
@@ -39,6 +46,7 @@ The added value of a predictive model includes:
 * **Zone of Failure** is the last 10% of RUL for that replacement part.
 
 </details>
+
 
 ## Dataset Content
 
@@ -51,7 +59,18 @@ This has been shared in two files:
 
 The data is segmented into 50 life tests (data bins). The amount of observations in each bin varies depending on the input variables and a random time when the tail of the data was removed to produce a [right censored](#right-censored-data) dataset.
 
-#### Summarized in the table below, the raw data set includes information about its content:
+| Variable | Meaning | Units | Data Format | Data Type |
+|---|---|---|---|---|
+| **Data_no** | Test Number | Categorical Number 1 to 50 | Independent | Integer / Discrete Categorical |
+ **Differential_pressure** | Pressure difference between upstream and downstream containment areas | Pascals (Pa = kg/m.s²) | Dependant | Floating point / Continuous |
+| **Flow_rate** | quantity of air being moved | m<sup>3</sup>/sec | Independent | Floating point / Continuous |
+| **Time** | Intervals between observations within a test as determined by sampling rate | 1/10th of a second | Independent | Floating point / Discrete (in this case) |
+| **Dust_Feed** | velocity of the particle speed | mm<sup>3</sup>/s | Independent | Floating point / Continuous |
+| **Dust** | 3 x types of ISO_12130 standardized dust ( A2 Fine, A3 Medium, A4 Coarse) | g/cm<sup>3</sup> | Independent | String / Discrete Number |
+| **RUL** | Remaining Useful Life | Relative Units (ie 1 unit = 1 day) | Dependent | Floating point / Continuous |
+
+#### Further Information
+
 <details>
 <summary style="font-size: 1rem;"><strong>Test Classification measures</strong></summary>
 
@@ -93,17 +112,6 @@ The data is segmented into 50 life tests (data bins). The amount of observations
 * This was confirmed by the .count() of the .unique() variables in each Data_no variable
 </details>
 
-
-| Variable | Meaning | Units | Data Format | Data Type |
-|---|---|---|---|---|
-| **Data_no** | Test Number | Categorical Number 1 to 50 | Independent | Integer / Discrete Categorical |
- **Differential_pressure** | Pressure difference between upstream and downstream containment areas | Pascals (Pa = kg/m.s²) | Dependant | Floating point / Continuous |
-| **Flow_rate** | quantity of air being moved | m<sup>3</sup>/sec | Independent | Floating point / Continuous |
-| **Time** | Intervals between observations within a test as determined by sampling rate | 1/10th of a second | Independent | Floating point / Discrete (in this case) |
-| **Dust_Feed** | velocity of the particle speed | mm<sup>3</sup>/s | Independent | Floating point / Continuous |
-| **Dust** | 3 x types of ISO_12130 standardized dust ( A2 Fine, A3 Medium, A4 Coarse) | g/cm<sup>3</sup> | Independent | String / Discrete Number |
-| **RUL** | Remaining Useful Life | Relative Units (ie 1 unit = 1 day) | Dependent | Floating point / Continuous |
-
 ### Considerations and Calculations:
 #### **Filter medium**
 The material used to filter the dust samples has been standardised across all tests. As a constant, it was not recorded as part of the datasets. Its properties were:
@@ -124,30 +132,34 @@ A trade-off has to be made between wasted remaining useful life and the increase
 
 #### **Important Note: Differential Pressure**
 Differential pressure, the measure of the change in air pressures before and after the filtering process, seems to be a highly important variable to failure detection process, as it: 
-* Is a dependent variable as it relies on a variety of factors, including flow rate, dust size, filter type, time.
+* As a dependent variable, it seems to rely on a variety of factors (flow rate, dust size, filter type, time).
 * Filter failure is considered to occur when this measure reaches 600 Pa.
-* Filter failure is positively correlated to RUL; i.e. **Differential Pressure = 600 Pa** indicates **RUL = 0 time remaining**
-* Depending on the rate of degradation toward the end of life for each type of filter, Differential Pressure may be a direct indicator of the **zone of failure**.
+* Filter failure is positively correlated to RUL; 
+	* i.e. **Differential Pressure = 600 Pa** indicates **RUL at 0 time units remaining**
+* Depending on the rate of degradation toward the end of life for each type of filter, Differential Pressure may be a direct indicator of the **Zone of Failure**.
 
 As the variable that a user would want to learn patterns, uncover relationships and predict using the rest of the dataset, Differential Pressure has been chosen as the primary **Target variable** for initial investigations.
 
 ### Quantitative Calculations
+
 | Variable | Meaning | Units | Data Format | Data Type |
 |---|---|---|---|---|
-<!-- | **Change in Differential Pressure** | Numerical value of change in pressure | Pascals (Pa = kg/m.s²) | Dependant | Floating point / Continuous | -->
+| **Change in Differential Pressure** | Numerical value of change in pressure | Pascals (Pa = kg/m.s²) | Dependant | Floating point / Continuous | -->
 | **Dust Density** | Numerical equivalent of dust density | g/cm<sup>3</sup> | Independent | Floating point / Continuous |
 | **Dust Mass** | Mass of the dust density fed into the filter | grams | Independent | Floating point / Continuous |
 | **Cumulative Dust Mass** | Cumulating dust mass fed into the filter over each test bin | grams | Independent | Floating point / Continuous |
 | **Total Time of Test** | The cumulative time for the current test bin | seconds (T) | Independent | Floating point / Discrete |
 | **RUL Test** | A check calculation of Remaining Useful Life from actual and calculated values in the set | Relative Units (ie 1 unit = 1 day) | Dependent | Floating point / Continuous |
 
-#### Details of Calculations:
+#### Further Information
+
 <details>
 <summary style="font-size: 1.1rem;"><strong>Remaining Useful Life (RUL) (dropdown list)</strong></summary>
 
 ![RUL Image](static/img/RUL_Image.png)
 
-**Remaining Useful Life** is classified as **the amount of time an asset (machine, replaceable part, filter, etc.) is likely to operate before it requires repair or replacement**. This is recorded in units relative to the test case, however units can represent Seconds, Minutes, Days, Miles, Cycles or any other quantifiable data. In practice: 
+**Remaining Useful Life** is classified as **the amount of time an asset (machine, replaceable part, filter, etc.) is likely to operate before it requires repair or replacement**. This is recorded in units relative to the test case, however units can represent Seconds, Minutes, Days, Miles, Cycles or any other quantifiable data. In practice:
+
 * The RUL observations provided in the data are randomly right-censored. In other words, filter failure did not occur by the end of each test cycle. 
 * This can be observed by the final observation of each test set in the **Differential_pressure** column. Each set does not reach the filter failure point of 600 Pa of differential pressure across the filter. This is the essence of right-censored. The data does not cover the full timeline to filter failure, however it ends somewhere before (at the right side) of this data set.
 * The original idea of the author behind the test data was, at the point in time when the data in each set ends, the remaining useful life (RUL) is to be estimated.
@@ -307,73 +319,62 @@ random.sample(random_list, 20)
 
 **Note:** the df_test and df_validate levels will vary depending on the random Data_No values generated and the differing sizes of the observations in each of these sets.
 Save the all datasets as working `.csv` files
- 
-<!-- Where:
-* X_train: It is used to represent features for the training data
-* X_test: It is used to represent features for testing data
-* X_validate: It is used to represent features for cross validation
-* y_train: It is used to represent dependent variables for training data
-* y_test: It is used to represent independent variable for testing data
-* y_validate: is used to represent independent features for validating data
 
-from sklearn.model_selection import train_test_split    
-x_train, x_test, y_train, y_test, X_validate, y_validate = train_test_split(x, y, test_size= 0.2, random_state=0)   -->
 
 </details>
 
 
-
 ## Business Requirements
 
-As a Data Analyst, we have been requested by the Power Technique division (the client) to provide actionable insights and data-driven recommendations to a corporation that manufactures industrial tools and equipment. 
+Hypothetical Synopsis
 
-This client has a substantial customer base in oil and gas and offshore industries, as well as power plants and surface and underground mining. They are interested in promoting the management of preventative maintenance and understanding how the industrial sales team could better interact with prospects to the benefits of transitioning toward predictive maintenance.
+> _As a Data Analyst, we have been requested by the Power Technique division (the client) to provide actionable insights and data-driven recommendations to a corporation that manufactures industrial tools and equipment._
+
+> _This client has a substantial customer base in oil and gas and offshore industries, as well as power plants and surface and underground mining. They are interested in promoting the management of preventative maintenance and understanding how the industrial sales team could better interact with prospects as to the benefits of transitioning from a preventitive model of maintenance to a predictive one._
 
 ### Business Case Surveys 
-To determine the number and depth of ML Models required to meet the stakeholders requirements, an understanding of the business needs and wants needs to be obtained. This needs to contain a clear expression of the requirements that stakeholders need to be solved. 
+To determine the number and depth of ML Models required to meet the stakeholders requirements, an survey of the business needs and wants has been conducted. This will help us define stakeholders, a clear expression of their requirements from an ML solution.
 
 This process is developed in a **business case** that can be applied to each ML model. These consider:
 * The Model objective
 * The Outcome 
 * The Metrics 
 * The Output
-* The Heuristic Information (ie calculated guesses, trial and error or rules of thumb)
-* The Training data 
+* The Heuristic Information (ie educated guesses, trial and error, industry rules of thumb)
+* The Data
 * Dashboard Design
 
-The information for this process has been collected from the stakeholders as a Survey - [Business Case Questionnaire](https://docs.google.com/forms/d/e/1FAIpQLSfIjxD0Ki9793LTQ2szr3-qWKXUsMbQS1AhM80BCAvltxmu4A/viewform) and individually summarized in the attached [Business Case Understanding](https://docs.google.com/document/d/1PnWhRg7F-0idx_qIOnzNXumI0he5jXNLqjbDqvul9kY/edit?usp=sharing) document.
+The information for this process has been collected from the stakeholders as 
+* A Survey - [Business Case Questionnaire](https://docs.google.com/forms/d/e/1FAIpQLSfIjxD0Ki9793LTQ2szr3-qWKXUsMbQS1AhM80BCAvltxmu4A/viewform) and 
+* A sample of all survey responses summarized for stakeholder **review** and **acceptance** can be seen in the attached [Business Case Understanding](https://github.com/roeszler/filter-maintenance-predictor/tree/main/src/documentation/Business_Case_Understanding.md) document.
+
+<!-- * Individually summarized in the attached [Business Case Understanding](https://docs.google.com/document/d/1PnWhRg7F-0idx_qIOnzNXumI0he5jXNLqjbDqvul9kY/edit?usp=sharing) document. -->
 
 ### Business Requirements
 
-From the above process, we confirm that stakeholders are interested in: 
-1. Using a predictive model to **determine the current Reaming Useful Life (RUL)** of any given filter (replaceable part) and indicate if a filter is currently **useable** or **not-useable**.
+From the above process, we confirm that stakeholders are interested in:
 
-2. The solution should indicate **the optimal time to change an air filter**, in RUL units. 
-    * i.e. Confirm the industry rule of thumb to replace at a 10% RUL zone is correct or does the data indicate something else?
-    * Optimal time is considered the cost benefit trade off between maximizing useful life and minimizing the risk of failure.
+1. Using a predictive model to **determine the current Reaming Useful Life (RUL) of any given replaceable part** (in this case an industrial air filter).
 
-3. If a filter fails, or fails prematurely, **which dust type cluster** does it belong to?
+	* _From this prediction, the client hopes to make a determination of when replaceable part is likely to reach the final 10% of its remaining useful life (known as the zone of failure)_.
 
-4. **Understanding the patterns** from the filter degradation process to reveal the most relevant factors that influence the time that a replacement part will fail and **which factors could extend its lifespan**?
+2. The client is interested in determining **the primary features that correlate to Remaning Useful Life** of a replacebale part so they can confirm the most relevant variables correlated to its operational life.
 
-#### As a Data Practitioner, we are additionally interested in:
-5. Making the most of the not-to-failure (right-censored) test data.
+	* _From this analysis, the client is interested in calculating the RUL for each type of dust as specified in the testing database_.
 
 These requirements can now be evaluated against the dataset provided to devise the type of ML models to be delivered by this project.
 
 ---
 
 ## Hypothesis and how to validate?
-* We suspect a filter still has a useable remaining life
-    * A **Boolean test model** can help with this indication
-* We suspect Remaining Useful Life is directly correlated to **dust feed**.
-    * A **Correlation study** can help in this investigation
-* We suspect Remaining Useful Life is can be projected from **differential pressure**.
-    * A **Correlation study** can help in this investigation
-* We want to understand if the time to change a filter is optimal at 10% RUL for **each class of dust**.
-    * A **???** study can help in this investigation
-* We suspect filters fail at a faster rate in the **A4 dust particle** group.
-    * A **Correlation study** can help in this investigation
+* We suspect Remaining Useful Life can be projected from **the supplied data**.
+    * A correlation study can help in this investigation
+* We suspect the Useful Life of a Filter shortens with **Dust Feed**.
+    * A predictive Regression model and orrelation study can help with this investigation
+* We suspect the Useful Life of a Filter is highly affected by **Flow rate**.
+	* A predictive Regression model and orrelation study can help with this investigation
+* We suspect the Useful Life of a Filter is highly affected by **Dust type**.
+	* A predictive Regression model and orrelation study can help with this investigation
 
 ### What is the predominant class of variables?
 The data is predominantly comprised of **continuous** data in **equal proportions**. With calculated variables included, they are classified as:
@@ -400,104 +401,213 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 </details>
 
 ### Type of Learning Model
+
+If the RUL target variable is: **a Continious Number**.
+* We will therefore consider a variation of Regression, Regression with PCA and/or Classification.
+<!-- * A Class or Category? = We will consider a Classification model. -->
+<!-- * A Boolean value? = We would consider a Classification and/or Logistic regression -->
+<!-- * A Date? = Discrete, Continuous Classification or Regression -->
+
+
 * A Supervised Learning Model used where the model has a target variable:
-    * We will consider a **multiple regression model** which is supervised and multi-dimensional ([Business Cases 1 & 2](#business-requirements)) 
+    * We will consider a **multiple regression model** which is supervised and multi-dimensional ([Business Cases 1](#business-requirements)) 
     * Should a regressor not perform well, we will run a **classification model** for each.
 
-* An Unsupervised Learning Model used where the model doesn't have a target variable and we wish to reveal patterns or unseen patterns:
-    * We will consider a **k-means probabilistic clustering model** to be used where data is grouped by similarity ([Business Case 3](#business-requirements)).
+* We will consider a **correlation and visualisation study** for this to meet the requirements of [Business Case 2](#business-requirements).
 
-* We will consider a **correlation and visualization study** for this to mee the requirements of [Business Case 4](#business-requirements).
-
-<!-- * If the target variable is:
-    * A Class or Category? = We will consider a Classification model. 
-    * A Number? = We will consider a variation of Regression, Regression with PCA and/or Classification.
-    * A Boolean value? = We would consider a Classification and/or Logistic regression
-    * A Date? = Discrete or Continuous Classification? Classification or Regression -->
-
-<!-- ML models generate algorithms to learn the patterns. The type of regression algorithm we use will impact the result:
-* Linear Regression Algorithm
-* Logistic Regression Algorithm
-* Native Bayes Algorithm -->
+The type of regression algorithm we will evaluate are:
+* Adaptive Boosting Regressor
+* Decision Tree Regressor
+* Extra Trees Regressor
+* Gradient Boosting Regressor
+* Linear Regressior
+* Random Forest Regressor
+* Stochastic Gradient Descent Regressor
+* Extreme Gradient Boosting Regressor
 
 
 ## The rationale to map the business requirements to the Data Visualizations and ML tasks
 
-* **Requirement 1 :** [Predict Current RUL]() : Classification, Regression, Cluster and Data Analysis
-    * We want to **predict the RUL of a filter** and receive a binary response to indicate a filter as **useable** or **not-useable**.
-    * We want to build a multiple regression model or change the ML task to classification depending on the regressor performance.
+* **Requirement 1 :** [Predict Current RUL]() : Regression and Correlation Analysis
+    * We want to **predict the RUL of a filter** and receive a binary response to indicate a filters current RUL depending on the variables that impact the prediction the most**.
+    * We want to build a multiple regression model or Regression model + Principle Component Analysis or change the ML task to classification depending on the regressor performance.
 
-* **Requirement 2 :** [Optimal time to Change Filter]()
-    * We want to understand if the **time to change** a filter is optimal at 10% RUL for **each dust class**.
-    * We want to build a multiple regression model or change the ML task to classification depending on the regressor performance.
-
-* **Requirement 3 :** [Dust Cluster Grouping]()
-    * We want to **cluster similar dust types**, to predict from which cluster the RUL trajectory belongs.
-
-* **Requirement 4 :** [Correlations for Maximizing RUL]()
+* **Requirement 2 :** [Correlations for Maximizing RUL]()
     * We will inspect the data related to the RUL.
     * We will conduct a correlation study (Pearson and Spearman) to understand better how the variables are correlated to RUL.
     * We will plot the main variables against RUL to visualize insights.
 
 
 ## ML Business Case
-### Business Case 1 : [Predict Current RUL]()
+### Business Case 1 : [Predict Current RUL](https://github.com/roeszler/filter-maintenance-predictor/blob/main/jupyter_notebooks/05_RUL_ModelingAndEvaluation.ipynb)
 #### Regression Model
 * Section for discussion of each Notebook on:
-    * Data Exploration NB
-    * [Correlation Study]() NB
-    * EDA on selected variables NB
-    * Conclusions and Next Steps NB
-#### Classification Model
-* ...
+	* Statement of Objectives
+    * Data Exploration & Manipulation
+		* Create Pipeline
+		* Split Data
+		* Optimal Hyperparameter Search
+    * Regression on Optimal Hyperparameters 
+    * EDA on selected variables
+    * Conclusions and Next Steps
 
-### Business Case 2 : [Predict Optimal Part Change]()
-#### Regression Model
-* ...
+* We want an ML model to predict the Remaining Useful Life of a replaceable part (an industrial air filter) based on controlled test data from the client, which doesn't include measures of dust mass per observation, cumulative mass, or total test time to failure.
+* The target variable is a continious numerical format and is sporadically right censored throughout a sample of test bins. We consider a supervised uni-dimensional regression model.
+* The target varible units are in relative time units defined by each business scenario.
+* The model success metrics are
+	* At 0.7 or more for R<sup>2</sup> Score, on train, test and valiation sets
+	* The ML model is considered a failure if:
+		* After 12 months of usage, the model's predictions are 50% off more than 30% of the time. 
+		* i.e. a prediction is greater than >50% off if the model predicted 10 units and the actual value was less than <5 units or more.
+* The output is defined as a continuous value for Remaining Useful Life in relative time units to the input (seconds, minutes, days, months, years etc.).
+* Heuristics: Currently, there is a determinitve historical data approach to determine the Remaing Useful Life for a replaceble part. This model attends to creating a predictive approach to add value to the maintenance programs within the business.
+* The training data to fit the model comes is a sample that represents the same data that would be sourced from the Customer (A Power Technique division an Idustrial Services Company). 
+* This dataset contains about 78 thousand test observations of filter performance.
+	* The training data represents:
+		* Values of Remaining USeful Life (RUL) are provided or can be determinatively calculated and
+		* Filter data where the cumulative change in differential pressure is greater than 0
+	* Target Feature: Remaining USeful Life (RUL)
+	* Features: all other variables, excluding Data Bin Number (Data_No) when modelling.
 
-#### Classification Model
-* ...
 
-### Business Case 3 : [Observe Dust Cluster Group]()
-#### Clustering Model
-* ...
-    
-## 8. The Correlation Study / Data Visualization
-### Business Case 4 : [RUL Correlations]()
+### Business Case 2 : [RUL Correlations](https://github.com/roeszler/filter-maintenance-predictor/blob/main/jupyter_notebooks/06_FilterFeatureStudy.ipynb)
 #### Correlation Study
 * We will inspect the data related to the RUL.
 * We will conduct a correlation study (Pearson and Spearman) to understand better how the variables are correlated to RUL.
-* We will plot the main variables against RUL to visualize insights. 
+* We will plot the main variables against RUL to visualize insights.
+* We may use these factors to confirm our input variables in a machine learning model to predict RUL into the future.
+* By using a correlation study to identify the most important factors, the cleint could improve the accuracy of their predictions and make more informed investment decisions. This could ultimately lead to decreased equipment down times, optimal use of replaceable parts, better coordination of workfoce and ultimately increased profits and a competitive advantage in the market.
+
+### User Stories
+Respository Link : [github.com/users/roeszler](https://github.com/users/roeszler/projects/6)
+
 
 ## Dashboard Design
 
-* Page 1: [Quick project summary]()
-
-* Page 2: [Replacement Part Predictor]()
-
-* Page 3: [Project Hypothesis and Validation]()
-
-* Page 4: [Predict Differential Pressure Model]()
-
-* Page 5: [Predict Replacement Timing Model]()
-
-* Page 6: [Cluster Analysis Model]() (what groups this occurs in)
-
-* Page 7: [Maximizing Useful Life Study]()
-
-<!-- * List all dashboard pages and their content, either blocks of information or widgets, like buttons, checkboxes, images, or any other item that your dashboard library supports.
-* Later, during the project development, you may revisit your dashboard plan to update a given feature (for example, at the beginning of the project you were confident you would use a given plot to display an insight but subsequently you used another plot type). -->
+### Page 1: [Project Summary](https://github.com/roeszler/filter-maintenance-predictor/blob/main/app_pages/p1_summary.py)
+* Project Terms & Jargon
+* Describe Project Dataset
+* Describe Business Requirements
 
 
+### Page 2: [Project Hypothesis](https://github.com/roeszler/filter-maintenance-predictor/blob/main/app_pages/p2_project_hypothesis.py)
+* Prior to the analysis, this page described each project hypotheses, the conclusions, and how to validated each. 
+* Following the data analysis, we can report that:
+	1. We suspect Remaining Useful Life can be projected from **the supplied data*.
+		* **Correct**. The Correlation Analysis at the Filter Feature Study supports this hypothesis.
+	2. We suspect the Useful Life of a Filter shortens with **Dust Feed**.
+		* **Correct**. The Correlation Analysis at the Filter Feature Study supports this hypothesis.
+	3. We suspect the Useful Life of a Filter is highly affected by **Flow rate**.
+		* **Correct**. The Correlation Analysis at the Filter Feature Study supports this hypothesis.
+	4. We suspect the Useful Life of a Filter is highly affected by **Dust type**.
+		* **Not Significant**. The Correlation Analysis at the Filter Feature Study fails to support this hypothesis.
 
-## Unfixed Bugs
-* You will need to mention unfixed bugs and why they were not fixed. This section should include shortcomings of the frameworks or technologies used. Although time can be a significant variable to consider, paucity of time and difficulty understanding implementation is not a valid reason to leave bugs unfixed.
+	* These insights will be referred to the business management and sales teams for further discussions, investigations required and conclusions.
+
+* Page 3: [Predict Remaing Useful Life](https://github.com/roeszler/filter-maintenance-predictor/blob/main/app_pages/p3_rul_predictor.py)
+	* This page intends to inform the associated probability of remianing useful life with a variety of input variables.
+	* States business requirements
+	* Set of widgets relating to the profiles of the most relevant input data.
+		* Each set of inputs is related to a given ML task to predict Remaing Useful Life.
+		* Sliders and select box that automatically serves the inuput data to our ML pipeline, and predicts the Remaing useful life of an industial filter. 
+	* It also shows a summary of the inputs selected and refression algorithum used. 
+
+
+* Page 4: [ML Model: Remaining Useful Life](https://github.com/roeszler/filter-maintenance-predictor/blob/main/app_pages/p4_model_rul.py)
+	* Considerations and conclusions after the pipeline is trained
+	* Present ML pipeline steps
+	* Feature importance
+	* Pipeline performance
+
+* Page 5: [ML Analysis: Filter Feature Study](https://github.com/roeszler/filter-maintenance-predictor/blob/main/app_pages/p5_feature_study.py)
+	* State business requirement 2
+	* Checkbox: data inspection on Remaining Useful Life database. 
+		* This displays the last ten rows of the last observations in each bin of the data)
+	* Display the top six correlated variables to RUL and the conclusions.
+	* Select Box: To choose between the three types of dust to vizulaize 
+	* Checkbox: Individual plots showing the dust types for each correlated variable
+	* Checkbox: Parallel plot using RUL and correlated Dust variables
+
+
+	* Considerations and conclusions after the pipeline is trained
+	* Present ML pipeline steps
+
+## Bugs
+* **Resolved**: The size of the original datset creates a subsequent `.pkl` file size that is larger than the repository likes to store or the claud application [Heroku](https://www.heroku.com/) allows to be uploaded int its slug. This has been rectified by reducing the number of observations in the model uploaded to the cloud app.
+* **Resolved**: When running the custom `consolidate_df_test_dust()` the streamlit application indicates a `ValueError: Input X contains NaN` where there is none in exsistance. This value of reducing the balance of the datset between the three dust variables is not indicated by the correlation analysis and / or abscence of the model over / underfitting. This has been resulved by including the total  hybrid version of the data to be used without equalising the distribution of dust within the data bin observations.  
+* There are no unfixed bugs in the deployed version of the project.
+
+## Possible Future Features
+* Inclusion of traing data that has **all RUL** testing bins with values that extend to the end of a fulters useful life.
+* Facility to access a widely accessible testing procedure that indicates if a filter is currently useable or not-useable.
+* Application able to alert clients the optimal time to change an air filter, in relative RUL time units.
+* Capacity to confirm the industry rule of thumb to replace at a 10% RUL zone is correct or does the data indicate something else.
+* Confirm the optimal replacement time (ORT) where ORT is considered the cost benefit trade off between maximizing useful life and minimizing the risk of failure.
+* A complete list of future features can be found at [Future Features](https://github.com/roeszler/maintenance-predictor/issues?q=is%3Aopen+is%3Aissue+milestone%3A%22Future+Features%22).
+
 
 ## Deployment
+
+This project was deployed using the GitPod + Jupyter Environment, with a Streamlit Framework into Heroku. The steps to deploy are as follows:
+
+* Fork or clone the [Code-Institute-Org: python-essentials-template](https://github.com/Code-Institute-Org/gitpod-full-template)
+* Click the Use this template to create a clone in GitHub
+* Follow Display environment settings below:
+
+### Display Environment (GitHub / GitLab / BitBucket)
+
+The application has been deployed to GitHub pages. 
+
+<details>
+<summary>
+The steps to deploy a clone of the GitHub repository...
+</summary>
+
+* Create / open an existing repository for the project with the name of your choice on your GitHub, GitLab or Bitbucket account page.
+* Navigate within the GitHub repository you chose, and then navigate to the "settings" tab, which displays the general title.
+* On the left hand navigation menu, I selected the "pages" option midway down the menu.
+* At the top of the pages tab, the source section drop-down menu changed to select the branch: "main" with the folder selected as `"/(root)"`
+* Committed to the save and waited a few moments for the settings to coordinate with the server. 
+* On refresh of the browser, the dedicated ribbon changed to the selected web address, indicating a successful deployment.
+
+> The live application link can be found here - https://maintenance-predictor.herokuapp.com/
+
+> The accessible GitHub repository for this application is https://github.com/roeszler/filter-maintenance-predictor
+</details>
+
+### Development Environment (GitPod)
+The application has been deployed to GitPod pages during development. 
+
+<details>
+<summary >
+The steps to deploy the project from GitHub to GitPod... 
+</summary>
+
+* In the GitHub, GitLab or Bitbucket account page where you created a repository for the project, navigate to the tab titled `'<> Code'`
+* From here, navigate to the button on the top right of the repository navigation pane titled 'Gitpod'.
+* If you press this it will create a new GitPod development environment each time.
+</details>
+
+<details>
+<summary >
+Alternatively, if you have already created the GitPod environment for your project...
+</summary>
+
+* In the browser’s address bar, prefix the entire URL with [gitpod.io/#](https://gitpod.io/#) or [gitpod.io/workspaces](https://gitpod.io/workspaces) and press Enter. This will take you to a list of workspaces that have been active within the past 14 days.
+* Search for the workspace you wish to work on and access the link to it that lies within the pathway `https://gitpod.io/`.
+* Sign in to the workspace each time with [gitpod.io/#](https://gitpod.io/#) using one of the listed providers (GitHub / GitLab / BitBucket) and let the workspace start up.
+* On navigating to the workspace for the first time, it may take a little while longer than normal to initially install all it needs. Be patient.
+* It is recommend that you install the GitPod browser extension to make this a one-click operation into the future.
+</details>
+
 ### Heroku
 
-* The App live link is: https://YOUR_APP_NAME.herokuapp.com/ 
-* The project was deployed to Heroku using the following steps.
+The live link to the application is: [https://maintenance-predictor.herokuapp.com/](https://maintenance-predictor.herokuapp.com/)
+
+<details>
+<summary >
+The project was deployed to Heroku using the following steps...
+</summary>
 
 1. Log in to Heroku and create an App
 2. At the Deploy tab, select GitHub as the deployment method.
@@ -505,46 +615,67 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 4. Select the branch you want to deploy, then click Deploy Branch.
 5. The deployment process should happen smoothly if all deployment files are fully functional. Click now the button Open App on the top of the page to access your App.
 
+</details>
 
 ## Main Data Analysis and Machine Learning Libraries
-* Here you should list the libraries you used in the project and provide an example(s) of how you used these libraries.
+* [Jupyter](https://jupyter.org/)
+	* Is a development environment for notebooks, code, and data, allowing users to configure and arrange workflows in data science, scientific computing, computational journalism, and machine learning.
+* [Kaggle](https://www.kaggle.com/)
+	* A subsidiary of [Google](https://en.wikipedia.org/wiki/Google), Kaggle is a community of data scientists and machine learning practitioners that allows users to find and publish publically accessible data sets to explore and build models, work with other professionals and enter competitions to solve data science challenges.
+* [Matplotlib](https://matplotlib.org/)
+	* A more comprehensive library for creating static, animated, and interactive visualizations in [Python](https://www.python.org/about/).
+* [NumPy](https://numpy.org/)
+	* A [Python](https://www.python.org/about/) programming language library that adds support for large, multi-dimensional arrays and matrices. I t also has a large collection of high-level mathematical functions to operate on these arrays.
+* [Pandas](https://pandas.pydata.org/)
+	* I an open source data analysis and manipulation tool, built on the [Python](https://www.python.org/about/) programming language to be a fundamental high-level building block for doing practical, real world data analysis.
+* [Python](https://www.python.org/about/)
+	* a high-level, general-purpose programming language emphasizing code readability with the use of indentation.
+* [Seaborn](https://seaborn.pydata.org/)
+	* Is a [Python](https://www.python.org/about/) data visualization library based on matplotlib. It provides a high-level interface for drawing attractive and informative statistical graphics.
+* [Scikit-learn](https://scikit-learn.org/stable/index.html)
+	* Is a free software machine learning library based on the [Python](https://www.python.org/about/) programming language, featuring a variety of classification, regression and clustering algorithms such as support-vector machines, random forests, gradient boosting, k-means and DBSCAN. It is designed to interoperate with the [Python](https://www.python.org/about/) numerical and scientific libraries [NumPy](https://numpy.org/) and [SciPy](https://scipy.org/).
+* [Streamlit](https://streamlit.io/)
+	* A [Python](https://www.python.org/about/) based environment that transforms data scripts into shareable web apps with minimal front end coding required.
+* [TensorFlow](https://www.tensorflow.org/)
+	* Developed by the [Google Brain Team](https://research.google.com/teams/brain/?hl=he), TensorFlow is a free and open-source software library for machine learning and artificial intelligence.
+* [Xgboost](https://xgboost.readthedocs.io/en/stable/)
+	* XGBoost (eXtreme Gradient Boosting) is an open-source software library which provides the gradient boosting framework for for C++, Java, [Python](https://www.python.org/about/), R, Julia, Perl and Scala.
 
-* scikit-learn
-* pandas
-* 
-
+## Main Development Environments and Editors
+* [GitHub](https://github.com/)
+	* Allows a variety of benefits to create, document, store, showcase and share a project in development.
+* [GitPod](https://www.gitpod.io/)
+	* Provides a relatively secure workspace to code and develop software projects in a remotely accessible cloud based platform.
+* [Heroku Platform](https://www.heroku.com/platform)
+	* Provides a platform for deploying and running [Python](https://www.python.org/about/) based apps.
+* [Cloudinary](https://cloudinary.com/) Image and Video Upload, Storage, Optimization and Content Display Network.
+* [Pillow](https://pypi.org/project/Pillow/) part of the [Python](https://www.python.org/about/) Imaging Library (PIL) adding image processing capabilities to the [Python](https://www.python.org/about/) interpreter.
+* [Lucidchart Flowchart Diagrams](https://www.lucidchart.com/pages/)
+	* A diagramming application that allows the mapping and creation of flowcharts to visualize design workflows.
 
 ## Credits 
-
-<!-- * In this section, you need to reference where you got your content, media and extra help from. It is common practice to use code from other repositories and tutorials, however, it is important to be very specific about these sources to avoid plagiarism. 
-* You can break the credits section up into Content and Media, depending on what you have included in your project.  -->
-
 ### Content 
 
-<!-- - The text for the Home page was taken from Wikipedia Article A
-- Instructions on how to implement form validation on the Sign-Up page was taken from [Specific YouTube Tutorial](https://www.youtube.com/)
-- The icons in the footer were taken from [Font Awesome](https://fontawesome.com/) -->
-
-* Hosted at [Heroku](https://www.heroku.com/platform).
-* Repository and issue management features provided at [GitHub](https://github.com/roeszler/filter-maintenance-predictor).
-* Developed using:
-    * The [GitPod Development Environment](https://www.gitpod.io/) 
-    * The [Streamlit](https://streamlit.io/) applications framework 
-    * The [Jupiter Notebooks](https://jupyter.org/) interface
+* The dataset is sourced from [Kaggle](https://www.kaggle.com/datasets/prognosticshse/preventive-to-predicitve-maintenance) performed by **Hagmeyer et al. (2021)** at the Hochschule Esslingen University of Applied Sciences.
+* Primary and additional Python coding was studied and reworked from modules provided through the Code Institute's [Diploma in Full Stack Software Development](https://codeinstitute.net/se/full-stack-software-development-diploma/), [W3 Schools](https://www.w3schools.com/), [Stack overflow](https://stackoverflow.com/), [mozilla.org](https://developer.mozilla.org/en-US/docs/Web/JavaScript) and [GeeksForGeeks](https://www.geeksforgeeks.org/).
+* Images were altered from original layout using [pixlr](https://pixlr.com/).
+* Images have been stored for delivery using the [cloudinary](https://cloudinary.com/) content delivery network.
+* Code styling and error detection by systematic code refactoring following a run of the `python3 -m flake8` command to evoke the [flake8](https://flake8.pycqa.org/en/latest/) style enforcement tool.
+* Considerations for the calculation of remaining useful life from [Ada Mode](https://www.ada-mode.com/blog/how-to-calculate-remaining-useful-life)
+* For development of general understandings and descriptors found at [StatQuest] (https://statquest.org/), [Towards Data Science](https://towardsdatascience.com/?gi=af0c840d68e1), [Medium](https://medium.com/tag/data-science) and [Papers With Code](https://paperswithcode.com/).
 
 ### Media
 
-<!-- - The photos used on the home and sign-up page are from This Open-Source site
-- The images used for the gallery page were taken from this other open-source site -->
-
 * Remaining Useful Life image sourced from [Stratadata](https://www.stratada.com/remaining-useful-life-rul-prediction/) Nov 2022.
-* Industrial filter image sourced from [forstafilters](https://www.forstafilters.com/wp-content/uploads/2014/06/Forsta_High_Res.jpg) Nov 2022.
+* Industrial filter image sourced from [Forsta Filters](https://www.forstafilters.com/wp-content/uploads/2014/06/Forsta_High_Res.jpg) Nov 2022.
+* Original charts designed and developed using [Lucidchart Flowchart Diagrams](https://www.lucidchart.com/pages/).
 
-
-## Acknowledgements (optional)
+## Acknowledgements
 * Thank the people that provided support through this project.
+	* My Mentor Rohit 
+	* My Tutor Niel
+	* My incredibly supportive Wife x 
 
 ---
 __COPYRIGHT NOTICE__ :
- *The Filter Maintenance predictor site is a functional program intended for educational purposes at the time of coding. Notwithstanding, it has been written as a proof of concept and invitation to treat for employers and stakeholders into the future. Copyrights for code, ideas, concepts and materials strictly lies with Stuart Roeszler © 2022. All rights reserved.*
- 
+ *The Filter Maintenance predictor site is a functional program intended for educational purposes at the time of coding. Notwithstanding, it has been written as a proof of concept and invitation to treat for employers and stakeholders into the future. Copyrights for code, ideas, concepts and materials strictly lies with Stuart Roeszler © 2023. All rights reserved.*

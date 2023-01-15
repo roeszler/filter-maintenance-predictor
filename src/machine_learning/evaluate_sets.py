@@ -136,11 +136,12 @@ def consolidate_df_test_dust(df_test):
     dust_A4 = df_test_cleaned_A4
 
     #concatenate the dataframes
-    df_test_compare = pd.concat([dust_A2, dust_A3, dust_A4], ignore_index = True)
+    global df_test_even_dist
+    df_test_even_dist = pd.concat([dust_A2, dust_A3, dust_A4], ignore_index = True)
 
-    #replace df_test with df_test_compare
-    df_test = df_test_compare
+    # Replace df_test with df_test_even_dist
+    df_test_even_dist = df_test_even_dist.reset_index(drop=True)
 
     #plot a bar graph of the dust classes
-    category_totals = df_test_compare.groupby('Dust')['Differential_pressure'].count().sort_values()
-    category_totals.plot(kind="barh", title='Proportion of Dust Classes in "df_test_compare"\n', xlabel='\nObservations', ylabel='Dust Class')
+    category_totals = df_test_even_dist.groupby('Dust')['Differential_pressure'].count().sort_values()
+    category_totals.plot(kind="barh", title='Proportion of Dust Classes in "df_test_even_dist"\n', xlabel='\nObservations', ylabel='Dust Class')

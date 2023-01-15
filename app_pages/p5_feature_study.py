@@ -58,7 +58,7 @@ def page5_body():
     st.info(
         f'The correlation indications and plots below '
         f'indicate that: \n'
-        f'* The rate of change in **RULe** is mostly affected by **dust feed** \n'
+        f'* The rate of change in **RUL** is mostly affected by **dust feed** \n'
         f'* The rate of change in **RUL** is typically affected by **the change in differential pressure** \n'
         f'* The rate of change in **RUL** is often affected by **dust type** and /or **the rate of flow** \n'
         f'* The rate of change in **RUL** is affected more when the **coarseness of the dust** increases \n'
