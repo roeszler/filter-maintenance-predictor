@@ -8,23 +8,29 @@ def page2_body():
 
     # conclusions taken from '05 Modelling & Evaluation' and '06 Filter Feature' notebooks
     st.write(
+        f'We suspect Remaining Useful Life can be projected from **the supplied data**'
+    )
+    st.success('**Correct**:'
+        f'The Correlation Analysis at the Filter Feature Study supports this hypothesis. \n\n'
+    )
+    st.write(
         f'We suspect the Useful Life of a Filter shortens with **Dust Feed**'
     )
     st.success('**Correct**:'
-        f'The correlation analysis at the Filter Feature Study supports this hypothesis. \n\n'
+        f'The Correlation Analysis at the Filter Feature Study supports this hypothesis. \n\n'
     )
     
     st.write(
         f'We suspect the Useful Life of a Filter is highly affected by **Flow rate**')
     
     st.success('**Correct**:'
-        f'The correlation analysis at the Filter Feature Study supports this hypothesis. \n\n'
+        f'The Correlation Analysis at the Filter Feature Study supports this hypothesis. \n\n'
     )
     st.write(
         f'We suspect the Useful Life of a Filter is highly affected by **Dust type**')
     
     st.warning('**Mixed**:'
-        f'The correlation analysis at the Filter Feature Study moderately supports this hypothesis. \n\n')
+        f'The Correlation Analysis at the Filter Feature Study moderately supports this hypothesis. \n\n')
     
     st.subheader('Observations')
     st.success(
