@@ -8,7 +8,7 @@ node_modules/
 .github/
 cloudinary_python.txt
 kaggle.json
-/jupyter_notebooks
+# /jupyter_notebooks
 /inputs
 /outputs
 # /deployed
