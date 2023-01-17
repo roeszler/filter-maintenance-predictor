@@ -1,5 +1,5 @@
 # Filter Replacement Predictor
-## A Machine Learning (ML) Project 
+## A Machine Learning Project
 
 Considering a fictitious business case where predictive analytics can be applied to a real life project. The scenario occurs in an industrial workplace looking to employ a **predictive maintenance model** in place of a **preventative** one as the primary strategy to maintain heavy equipment. 
 
@@ -156,7 +156,7 @@ As the variable that a user would want to learn patterns, uncover relationships 
 <details>
 <summary style="font-size: 1.1rem;"><strong>Remaining Useful Life (RUL) (dropdown list)</strong></summary>
 
-![RUL Image](static/img/RUL_Image.png)
+![RUL Image](https://res.cloudinary.com/yodakode/image/upload/Filter%20Maintenance/RUL_Image_pcs4v6.png)
 
 **Remaining Useful Life** is classified as **the amount of time an asset (machine, replaceable part, filter, etc.) is likely to operate before it requires repair or replacement**. This is recorded in units relative to the test case, however units can represent Seconds, Minutes, Days, Miles, Cycles or any other quantifiable data. In practice:
 
@@ -286,7 +286,7 @@ Ideally, the split of these subsets from a single dataset would be:
 * Validation Set = 10-20% (cross validation, compare models and choose hyperparameters)
 * Test Set = 20-30%
 
-![Dataset splitting Image]()
+![Dataset splitting Image](https://res.cloudinary.com/yodakode/image/upload/Filter%20Maintenance/Cross-validation_Performance_Evaluation_Flowchart_lnizoo.png)
 
 In this project, with the data provided in a ‘pre-split’ format with he training set absent of live RUL measures. Considering this, the business requirements and the needs of the model, training data has been split into **df_train** and **df_validate** by;
 * Extracting the data bins from the bigger `dust` type groups that best represent the normal distribution in the same proportion as the smaller bins (as explained [above](#1-uneven-data-distribution))
@@ -428,14 +428,25 @@ The type of regression algorithm we will evaluate are:
 
 ## The rationale to map the business requirements to the Data Visualizations and ML tasks
 
-* **Requirement 1 :** [Predict Current RUL]() : Regression and Correlation Analysis
+* **Requirement 1** : [Predict Current RUL](https://github.com/roeszler/filter-maintenance-predictor/blob/main/jupyter_notebooks/05_ModelingAndEvaluation_RUL.ipynb) : Regression and Correlation Analysis
     * We want to **predict the RUL of a filter** and receive a binary response to indicate a filters current RUL depending on the variables that impact the prediction the most**.
     * We want to build a multiple regression model or Regression model + Principle Component Analysis or change the ML task to classification depending on the regressor performance.
 
-* **Requirement 2 :** [Correlations for Maximizing RUL]()
+* **Requirement 2** : [Correlations for Maximizing RUL](https://github.com/roeszler/filter-maintenance-predictor/blob/main/jupyter_notebooks/06_FilterFeatureStudy.ipynb)
     * We will inspect the data related to the RUL.
     * We will conduct a correlation study (Pearson and Spearman) to understand better how the variables are correlated to RUL.
     * We will plot the main variables against RUL to visualize insights.
+
+## Planned Pipeline to ML Model
+
+<details>
+<summary style="font-size: 1rem;">See: <strong>ML Pipeline Process</strong> for visulization of the planned process of devloping an ML Model</summary>
+
+
+![ML Pipeline Process](https://res.cloudinary.com/yodakode/image/upload/Filter%20Maintenance/ML_Pipeline_Process_sutrea.png)
+
+</details>
+
 
 
 ## ML Business Case
@@ -478,8 +489,16 @@ The type of regression algorithm we will evaluate are:
 * We may use these factors to confirm our input variables in a machine learning model to predict RUL into the future.
 * By using a correlation study to identify the most important factors, the cleint could improve the accuracy of their predictions and make more informed investment decisions. This could ultimately lead to decreased equipment down times, optimal use of replaceable parts, better coordination of workfoce and ultimately increased profits and a competitive advantage in the market.
 
-### User Stories
-Respository Link : [github.com/users/roeszler](https://github.com/users/roeszler/projects/6)
+## Project Management
+
+[Project Sprints](https://github.com/roeszler/filter-maintenance-predictor/milestones)
+* [Sprint 1 - Collect Information & Data](https://github.com/roeszler/filter-maintenance-predictor/milestone/6?closed=1)
+* [Sprint 2 - Data Visualisation, Cleaning & Preparation](https://github.com/roeszler/filter-maintenance-predictor/milestone/5?closed=1)
+* [Sprint 3 - Train, Validate & Optimise Models](https://github.com/roeszler/filter-maintenance-predictor/milestone/4?closed=1)
+* [Sprint 4 - Dashboard Plan, Design & Develop](https://github.com/roeszler/filter-maintenance-predictor/milestone/3?closed=1)
+* [Sprint 5 - Deploy Dashboard & Release](https://github.com/roeszler/filter-maintenance-predictor/milestone/2?closed=1)
+* [Sprint 6 - Bugs, Refactor & Document](https://github.com/roeszler/filter-maintenance-predictor/milestone/1?closed=1)
+
 
 
 ## Dashboard Design
@@ -538,12 +557,12 @@ Respository Link : [github.com/users/roeszler](https://github.com/users/roeszler
 * There are no unfixed bugs in the deployed version of the project.
 
 ## Possible Future Features
-* Inclusion of traing data that has **all RUL** testing bins with values that extend to the end of a fulters useful life.
+* Inclusion of traing data that has **all RUL** testing bins with **all values** that extend to the end of a fulters useful life.
 * Facility to access a widely accessible testing procedure that indicates if a filter is currently useable or not-useable.
 * Application able to alert clients the optimal time to change an air filter, in relative RUL time units.
 * Capacity to confirm the industry rule of thumb to replace at a 10% RUL zone is correct or does the data indicate something else.
-* Confirm the optimal replacement time (ORT) where ORT is considered the cost benefit trade off between maximizing useful life and minimizing the risk of failure.
-* A complete list of future features can be found at [Future Features](https://github.com/roeszler/maintenance-predictor/issues?q=is%3Aopen+is%3Aissue+milestone%3A%22Future+Features%22).
+	* Confirm the optimal replacement time (ORT) where ORT is considered the cost benefit trade off between maximizing useful life and minimizing the risk of failure.
+* A complete list of future features can be found at [Future Features](https://github.com/roeszler/filter-maintenance-predictor/issues?q=is%3Aissue+label%3A%22future+release%22+is%3Aclosed).
 
 
 ## Deployment
@@ -661,8 +680,18 @@ The project was deployed to Heroku using the following steps...
 * Images were altered from original layout using [pixlr](https://pixlr.com/).
 * Images have been stored for delivery using the [cloudinary](https://cloudinary.com/) content delivery network.
 * Code styling and error detection by systematic code refactoring following a run of the `python3 -m flake8` command to evoke the [flake8](https://flake8.pycqa.org/en/latest/) style enforcement tool.
-* Considerations for the calculation of remaining useful life from [Ada Mode](https://www.ada-mode.com/blog/how-to-calculate-remaining-useful-life)
-* For development of general understandings and descriptors found at [StatQuest] (https://statquest.org/), [Towards Data Science](https://towardsdatascience.com/?gi=af0c840d68e1), [Medium](https://medium.com/tag/data-science) and [Papers With Code](https://paperswithcode.com/).
+
+### Literature
+
+* Blog: '[Considerations for the calculation of remaining useful life](https://www.ada-mode.com/blog/how-to-calculate-remaining-useful-life)', Ada Mode, 2021.
+* For development of general understandings and descriptors found at [StatQuest] (https://statquest.org/), [Towards Data Science](https://towardsdatascience.com/?gi=af0c840d68e1), [Medium](https://medium.com/tag/data-science), [PlaygroundGPT](https://beta.openai.com/playground) and [Papers With Code](https://paperswithcode.com/).
+* "[User Stories Applied: For Agile Software Development](https://books.google.se/books?id=SvIwuX4SVigC&lpg=PR13&ots=VrYbfbwVRQ&dq=User%20Stories%20Applied%3A%20For%20Agile%20Software%20Development%22%20by%20Mike%20Cohn&lr&pg=PR13#v=onepage&q=User%20Stories%20Applied:%20For%20Agile%20Software%20Development%22%20by%20Mike%20Cohn&f=false)" by Mike Cohn, 2004.
+* "[Scrum: The Art of Doing Twice the Work in Half the Time](https://books.google.se/books?id=ikl9AwAAQBAJ&lpg=PP1&dq=Scrum%3A%20The%20Art%20of%20Doing%20Twice%20the%20Work%20in%20Half%20the%20Time%22%20by%20Jeff%20Sutherland&pg=PP1#v=onepage&q=Scrum:%20The%20Art%20of%20Doing%20Twice%20the%20Work%20in%20Half%20the%20Time%22%20by%20Jeff%20Sutherland&f=false)" by Jeff Sutherland, 2014.
+* "[Agile Estimating and Planning](https://books.google.se/books?id=BuFWHffRJssC&lpg=PT29&ots=WqfgykNZJl&dq=Agile%20Estimating%20and%20Planning&lr&pg=PT29#v=onepage&q=Agile%20Estimating%20and%20Planning&f=false)" by Mike Cohn, 2005.
+* "[The Lean Startup: How Today’s Entrepreneurs Use Continuous Innovation to Create Radically Successful Businesses](https://books.google.se/books?id=tvfyz-4JILwC&lpg=PA1&ots=8J6aE83msZ&dq=The%20Lean%20Startup%3A%20How%20Today%E2%80%99s%20Entrepreneurs%20Use%20Continuous%20Innovation%20to%20Create%20Radically%20Successful%20Businesses&lr&pg=PA1#v=onepage&q=The%20Lean%20Startup:%20How%20Today%E2%80%99s%20Entrepreneurs%20Use%20Continuous%20Innovation%20to%20Create%20Radically%20Successful%20Businesses&f=false)" by Eric Ries, 2011.
+* The Agile Alliance (https://www.agilealliance.org/) is a non-profit organization that promotes Agile methodologies.
+* Scrum.org (https://www.scrum.org/) is a website that provides information and resources on the Scrum framework.
+* The Scaled Agile Framework (SAFe) (https://www.scaledagileframework.com/) is a methodology for managing and completing projects using Agile methodologies at an enterprise level.
 
 ### Media
 
