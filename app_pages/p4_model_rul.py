@@ -1,24 +1,13 @@
 """ Page answers business requirement 1 """
+#  flake8: noqa
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from src.data_management import load_filter_test_data, load_pkl_file
-from src.machine_learning.evaluate_sets import (
-    clf_performance, regression_performance, regression_evaluation,
-    regression_evaluation_plots
-    )
-from sklearn.metrics import (
-    r2_score, mean_squared_error, mean_absolute_error,
-    median_absolute_error, classification_report, confusion_matrix
-    )
+from src.data_management import load_pkl_file
+
 
 def page4_body():
     """ Defines the p4_predict_rul page """
-    # st.write("This is page 4")
-
-    # # Version Selector
-    # version = st.selectbox('Select Version:', ('v1', 'v2', 'v3'))
-    # st.write('Current Version:', version)
 
     # load RUL files
     rul_pipe = load_pkl_file(f'deployed/rfr_pipeline.pkl')
@@ -34,7 +23,6 @@ def page4_body():
     y_test = pd.read_csv(f'deployed/y_test_deployed.csv')
     X_validate = pd.read_csv(f'deployed/X_validate_deployed.csv')
     y_validate = pd.read_csv(f'deployed/y_validate_deployed.csv')
-
     st.subheader('ML Prediction Pipeline: Remaining Useful Life')
     # display pipeline training summary conclusions
     st.info(
@@ -52,7 +40,7 @@ def page4_body():
         f"**0.85** to **0.95** as the performance of the train and test sets exceeds 90 with most "
         "regression models. This information would be fed back to the business team for consideration "
         "as the subject matter experts in this field. \n\n"
-    )
+        )
     
     st.info(
         f"* We proceeded to perform a Regressor + PCA and primarily for project demonstration purposes. "
@@ -65,7 +53,7 @@ def page4_body():
         
         f"* We also demonstrated how to convert the target and predictor variables to classes within the "
         f"**Filter Feature Study** to answer Business Requirement 2. \n\n"
-    )
+        )
     st.write("---")
 
     # show pipeline steps
@@ -83,33 +71,13 @@ def page4_body():
     st.info('Inspect Input Data')
     version = st.selectbox('Select set:', ('X_train', 'y_train', 'X_test', 'y_test', 'X_validate', 'y_validate'))
     df_sample = pd.read_csv(f'deployed/{version}_deployed.csv')
-    st.write(
-        f'* The dataset has {df_sample.shape[0]} rows, {df_sample.shape[1]} columns\n')
+    st.write(f'* The dataset has {df_sample.shape[0]} rows, {df_sample.shape[1]} columns\n')
     st.write(df_sample.head(6))
     st.write('---')
 
     # evaluate performance on both sets
     st.subheader('Pipeline Performance')
-    
-    # if st.checkbox('Regression Images'):
-    #     st.image(rul_reg_evaluation)
-
-    # if st.checkbox('Model Evaluation Metrics'):
-    #     col1, col2 = st.columns(2)
-    #     with col1:
-    #         st.write('Train Set')
-    #         # st.image('https://res.cloudinary.com/yodakode/image/upload/YodaKode/freepik-com-Designed-by-stories-Freepik_wkfvq1.jpg')
-    #         st.image(reg_eval_pic_train, width=600)
-    #     with col2:
-    #         st.write('Test Set')
-    #         # st.image('https://res.cloudinary.com/yodakode/image/upload/YodaKode/freepik-com-Designed-by-stories-Freepik_wkfvq1.jpg')
-    #         st.image(reg_eval_pic_test, width=600)
-
-    # if st.checkbox('Cross Validation Metrics'):
-    #     st.image(cross_val_plot)
-    #     st.image(reg_eval_pic_validate)
-
-    data = st.radio( 'Select Evaluation Data to View',
+    data = st.radio('Select Evaluation Data to View',
         ('Model Evaluation Metrics', 'Model Regression Images', 'Cross Validation Metrics')
         )
 
@@ -121,11 +89,9 @@ def page4_body():
         col1, col2 = st.columns(2)
         with col1:
             st.write('Train Set')
-            # st.image('https://res.cloudinary.com/yodakode/image/upload/YodaKode/freepik-com-Designed-by-stories-Freepik_wkfvq1.jpg')
             st.image(reg_eval_pic_train, width=600)
         with col2:
             st.write('Test Set')
-            # st.image('https://res.cloudinary.com/yodakode/image/upload/YodaKode/freepik-com-Designed-by-stories-Freepik_wkfvq1.jpg')
             st.image(reg_eval_pic_test, width=600)
     else:
         st.write('You selected Cross Validation Metrics')

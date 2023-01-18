@@ -1,21 +1,15 @@
 """ Project Summary Page """
+#  flake8: noqa
 import streamlit as st
 from PIL import Image
 
-# streamlit run app.py
 filter_image = Image.open('static/img/Forsta_High_Res-2394418179.png')
 
 def page1_body():
     """ Defines the p1_summary page """
 
-    # option = st.selectbox(
-    #     'How would you like to be contacted?',
-    #     ('Email', 'Home phone', 'Mobile phone'))
-    # st.write('You selected:', option)
-
     st.subheader(
         f'Project Summary\n'
-        # f'Page 1'
         )
     st.image(filter_image, caption='180 Series ForstaFilter', width=400)
 
@@ -41,7 +35,7 @@ def page1_body():
         f'* **Zone of Failure** is the last 10% of RUL for that replacement part.\n'
         f'* **The Threshold** is the actual time when the experiment exceeded the threshold,'
         f'(used to define when the observations pass into the zone of failure).\n'
-        
+
         f'**Project Dataset**\n\n'
         f'The dataset represents a collection of test measures obtained from the **Power Technique division** '
         f'of an **Industrial Solutions company**. \n''It contains testing data that relates to:\n'
@@ -50,7 +44,7 @@ def page1_body():
         f'* **Feeding rates** (like dust feed, flow rate and sampling rate in seconds) and\n'
         f'* **Materials filtered** (type of dust fed into the testing system).'
         )
-    
+
     # copied from README file - 'Business Requirements' section
     st.success('**Project Business Requirements**')
     st.success(
@@ -58,39 +52,18 @@ def page1_body():
         f'procedure so that they can **predict the current Reaming Useful Life (RUL) of any given '
         f'replaceable part** (in this case an industrial air filter).\n\n'
         )
-
     st.write(
     f'_From this prediction, the client hopes to make a determination of when replaceable '
     f'part is likely to reach the final 10% of its remaining useful life (known as the zone '
     f'of failure)_.\n\n'
     )
-
     st.success(
         f'2. The client is interested in determining what **the primary features that correlate to RUL**. ')
-    
     st.write(
         f'_From this analysis, the client is interested in calculating the RUL for each type of dust '
         f'as specified in the testing database_.\n\n'
         )
-    
     # Link to README file, so the users can have access to full project documentation
     st.warning(
         f'**For additional information, please visit the ML projects '
         f'[README](https://github.com/roeszler/filter-maintenance-predictor/blob/main/README.md) file.**')
-    
-    # st.snow()
-    # st.balloons()
-
-    # st.subheader('This is a subheader')
-    # st.subheader('A subheader with _italics_ :blue: [blue] and emojis :sunglasses:')
-    # st.markdown('Streamlit is **_really_ cool**.')
-    # st.markdown("This text is :red[colored red], and this is **:blue[colored]** and bold.")
-    # st.markdown(":green[$\sqrt{x^2+y^2}=1$] is a Pythagorean identity. :pencil:")
-
-    # st.caption(
-    #     f'From this prediction, the client hopes to make a determination of when replaceable '
-    #     f'part is likely to reach the final 10% of its remaining useful life (known as the zone '
-    #     f'of failure).\n\n')
-
-    # st.caption('This is a string that explains something above.')
-    # st.caption('A caption with _italics_ :blue[colors] and emojis :sunglasses:')

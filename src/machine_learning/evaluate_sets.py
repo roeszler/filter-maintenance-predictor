@@ -1,7 +1,10 @@
 """ Functions for data evaluation """
+# flake8: noqa 
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from sklearn.metrics import (
     r2_score, mean_squared_error, mean_absolute_error,
@@ -137,22 +140,22 @@ def consolidate_df_test_dust(df_test):
     bin_no = df_test_A4['Data_No'].head(4)
     bin_no.to_frame()
 
-    #get all values from df_test that are in bin_no
+    # Get all values from df_test that are in bin_no
     df_test_copy = df_test
     df_test_cleaned_A4 = df_test_copy[df_test_copy['Data_No'].isin(bin_no)]
 
-    #create dataframes for each dust class
+    # Create dataframes for each dust class
     dust_A2 = df_test[df_test['Dust'] == 0.900]
     dust_A3 = df_test_cleaned_A3
     dust_A4 = df_test_cleaned_A4
 
-    #concatenate the dataframes
+    # Concatenate the dataframes
     global df_test_even_dist
     df_test_even_dist = pd.concat([dust_A2, dust_A3, dust_A4], ignore_index = True)
 
     # Replace df_test with df_test_even_dist
     df_test_even_dist = df_test_even_dist.reset_index(drop=True)
 
-    #plot a bar graph of the dust classes
+    # Plot a bar graph of the dust classes
     category_totals = df_test_even_dist.groupby('Dust')['Differential_pressure'].count().sort_values()
     category_totals.plot(kind="barh", title='Proportion of Dust Classes in "df_test_even_dist"\n', xlabel='\nObservations', ylabel='Dust Class')

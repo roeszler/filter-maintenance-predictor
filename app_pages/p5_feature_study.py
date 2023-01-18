@@ -1,13 +1,9 @@
 """ Page answers business requirement 2 """
-import plotly.express as px
-import numpy as np
+#  flake8: noqa
 import streamlit as st
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 from src.data_management import load_filter_test_data, load_ohe_data
 from src.machine_learning.plot_sets import (
-    dust_per_variable, plot_categorical, plot_numerical, parallel_plot_rul
+    dust_per_variable, parallel_plot_rul
     )
 
 

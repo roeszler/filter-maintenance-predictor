@@ -1,6 +1,8 @@
 """ Page Allows users to interact with model """
+#  flake8: noqa
 import streamlit as st
 from src.machine_learning.predictors_ui import rul_regression_predictor
+
 
 def page3_body():
     """ Defines the p3_interface_rul page """
@@ -17,7 +19,5 @@ def page3_body():
         f'to RUL and calculating the RUL for each type of dust as specified in the testing database'
     )
     st.write("---")
-
     # Run Predictor
     rul_regression_predictor()
-

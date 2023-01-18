@@ -401,10 +401,6 @@ The data is predominantly comprised of **continuous** data in **equal proportion
 
 If the RUL target variable is: **a Continuous Number**.
 * We will therefore consider a variation of Regression, Regression with PCA and/or Classification.
-<!-- * A Class or Category? = We will consider a Classification model. -->
-<!-- * A Boolean value? = We would consider a Classification and/or Logistic regression -->
-<!-- * A Date? = Discrete, Continuous Classification or Regression -->
-
 
 * A Supervised Learning Model used where the model has a target variable:
     * We will consider a **multiple regression model** which is supervised and multi-dimensional ([Business Cases 1](#business-requirements)) 
@@ -437,7 +433,6 @@ The type of regression algorithm we will evaluate are:
 
 <details>
 <summary style="font-size: 1rem;">See: <strong>ML Pipeline Process</strong> for visualization of the planned process of developing an ML Model</summary>
-
 
 ![ML Pipeline Process](https://res.cloudinary.com/yodakode/image/upload/Filter%20Maintenance/ML_Pipeline_Process_sutrea.png)
 

@@ -1,12 +1,13 @@
 """ Functions for data evaluation """
+# flake8: noqa
 import plotly.express as px
 import numpy as np
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from src.data_management import load_filter_test_data, load_ohe_data
 from feature_engine.discretisation import ArbitraryDiscretiser
+
 
 # FUNCTIONS
 # function created using '06_Filter_Feature_Study' notebook code - "Variables Distribution by RUL" section
@@ -27,13 +28,17 @@ def plot_categorical(df, col, target_var):
     Plots categorical variables
     """
     fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(12, 5))
-    sns.countplot(data=df, x=col, hue=target_var, order=df[col].value_counts().index)
+    sns.countplot(data=df,
+                  x=col,
+                  hue=target_var,
+                  order=df[col].value_counts().index)
     plt.xticks(rotation=90)
     plt.title(f"{col}", fontsize=20, y=1.05)
     st.pyplot(fig)
 
 
-# function created using '06_Filter_Feature_Study' notebook code - "Variables Distribution by RUL" section
+# function created using '06_Filter_Feature_Study' 
+# notebook code - "Variables Distribution by RUL" section
 def plot_numerical(df, col, target_var):
     """
     Plots numerical values
@@ -44,7 +49,8 @@ def plot_numerical(df, col, target_var):
     st.pyplot(fig)
 
 
-# function created using '06_Filter_Feature_Study' notebook code - "Parallel Plot" section
+# function created using '06_Filter_Feature_Study' 
+# notebook code - "Parallel Plot" section
 def parallel_plot_rul(df_eda):
     """
     Parallel plot of RUL as a range
@@ -52,7 +58,8 @@ def parallel_plot_rul(df_eda):
     # hard coded from "disc.binner_dict_['RUL']" result,
     rul_map = [-np.inf, 31, 62, 93, 124, 155, 186, 217, 248, 279, np.inf]
 
-    # sourced from '06_Filter_Feature_Study' notebook within the "Parallel Plot" section
+    # sourced from '06_Filter_Feature_Study' notebook within 
+    # the "Parallel Plot" section
     disc = ArbitraryDiscretiser(binning_dict={'RUL': rul_map})
     df_parallel = disc.fit_transform(df_eda)
 
