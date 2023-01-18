@@ -493,6 +493,8 @@ The type of regression algorithm we will evaluate are:
 * [Sprint 5 - Deploy Dashboard & Release](https://github.com/roeszler/filter-maintenance-predictor/milestone/2?closed=1)
 * [Sprint 6 - Bugs, Refactor & Document](https://github.com/roeszler/filter-maintenance-predictor/milestone/1?closed=1)
 
+### User Stories
+Respository Link : [github.com/users/roeszler](https://github.com/users/roeszler/projects/6)
 
 
 ## Dashboard Design
@@ -555,6 +557,8 @@ The type of regression algorithm we will evaluate are:
 * Facility to access a widely accessible testing procedure that indicates if a filter is currently useable or not-useable.
 * Application able to alert clients the optimal time to change an air filter, in relative RUL time units.
 * Capacity to confirm the industry rule of thumb to replace at a 10% RUL zone is correct or does the data indicate something else.
+	* Confirm the optimal replacement time (ORT) where ORT is considered the cost benefit trade off between maximizing useful life and minimizing the risk of failure.
+* A complete list of future features can be found at [Future Features](https://github.com/roeszler/filter-maintenance-predictor/issues?q=is%3Aissue+label%3A%22future+release%22+is%3Aclosed).
 	* Confirm the optimal replacement time (ORT) where ORT is considered the cost benefit trade off between maximizing useful life and minimizing the risk of failure.
 * A complete list of future features can be found at [Future Features](https://github.com/roeszler/filter-maintenance-predictor/issues?q=is%3Aissue+label%3A%22future+release%22+is%3Aclosed).
 
