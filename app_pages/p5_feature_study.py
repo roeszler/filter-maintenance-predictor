@@ -13,7 +13,6 @@ from src.machine_learning.plot_sets import (
 
 def page5_body():
     """ Defines the p5_feature_study page """
-    # st.write('This is page 5')
 
     # load data
     df = load_filter_test_data()
@@ -35,7 +34,6 @@ def page5_body():
     
     # data inspection
     if st.checkbox('Inspect Filter Test Data'):
-    
         st.write(
             f'* The dataset has {df.shape[0]} rows, {df.shape[1]} columns, '
             f'contained in {len(df["Data_No"].unique())} separate test bins.\n'
