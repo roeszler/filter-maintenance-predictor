@@ -58,7 +58,7 @@ This has been shared in two files:
 * **Train_Data.csv** - 50% of the data without RUL to fit or train the model.
 * **Test_Data.csv** - 50% of the data with RUL with the actual recorded values of time when the experiment exceeded the threshold.
 
-The data is segmented into 50 life tests (data bins). The amount of observations in each bin varies depending on the input variables and a random time when the tail of the data was removed to produce a [**right censored**](#right-censored-data) dataset.
+The data is segmented into 50 life tests (data bins). The amount of observations in each bin varies depending on the input variables and a random time when the tail of the data was removed to produce a **right censored** dataset.
 
 | Variable | Meaning | Units | Data Format | Data Type |
 |---|---|---|---|---|
