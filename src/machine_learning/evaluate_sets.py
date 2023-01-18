@@ -2,7 +2,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-# from sklearn.impute import SimpleImputer
+
 from sklearn.metrics import (
     r2_score, mean_squared_error, mean_absolute_error,
     median_absolute_error, classification_report, confusion_matrix
@@ -10,7 +10,9 @@ from sklearn.metrics import (
 
 # Regression Reports
 def regression_performance(X_train, y_train, X_test, y_test, pipeline):
-# def regression_performance(X_train, y_train, X_test, y_test, pipeline, label_map):
+    """
+    Handles the data for input into train and test regression reports
+    """
     st.info("Train Set")
     regression_evaluation(X_train, y_train, pipeline)
 
@@ -19,10 +21,9 @@ def regression_performance(X_train, y_train, X_test, y_test, pipeline):
 
 
 def regression_evaluation(X, y, pipeline):
-    # imp = SimpleImputer(strategy="most_frequent")
-    # X_imp = imp.fit_transform(X)
-    # prediction = pipeline.predict(X_imp)
-
+    """
+    Displays summary of important regression variables
+    """
     prediction = pipeline.predict(X)
     st.write('R² Score:', r2_score(y, prediction).round(4))
     st.code(r2_score(y, prediction).round(4))
@@ -38,6 +39,9 @@ def regression_evaluation(X, y, pipeline):
 
 
 def regression_evaluation_plots(X_train, y_train, X_test, y_test, pipeline, alpha_scatter=0.5):
+    """
+    Creates regression evaluation plots
+    """
     pred_train = pipeline.predict(X_train)
     pred_test = pipeline.predict(X_test)
 
@@ -60,7 +64,9 @@ def regression_evaluation_plots(X_train, y_train, X_test, y_test, pipeline, alph
 # Classification Reports
 # code copied from "Modeling and Evaluation" notebooks
 def confusion_matrix_and_report(X, y, pipeline, label_map):
-
+    """
+    Creates a confusion matrix report from X and y inputs
+    """
     prediction = pipeline.predict(X)
 
     st.write('#### Confusion Matrix')
@@ -75,14 +81,19 @@ def confusion_matrix_and_report(X, y, pipeline, label_map):
 
 # code copied from "Modeling and Evaluation" notebooks
 def clf_performance(X_train, y_train, X_test, y_test, pipeline, label_map):
+    """
+    Handles inputs for confusion matrix reporting for train and test datasets
+    """
     st.info("Train Set")
     confusion_matrix_and_report(X_train, y_train, pipeline, label_map)
-
     st.info("Test Set")
     confusion_matrix_and_report(X_test, y_test, pipeline, label_map)
 
 
 def consolidate_df_test_dust(df_test):
+    """
+    Consolidated this specific df_test data into three equal dust classes
+    """
     # Calculating standard deviation
     std_group = df_test.groupby('Data_No')['Differential_pressure'].std()
     df_test['std_DP'] = df_test['Data_No'].map(std_group)

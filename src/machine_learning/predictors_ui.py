@@ -19,7 +19,9 @@ X_validate = pd.read_csv(f'deployed/X_validate_deployed.csv')
 y_validate = pd.read_csv(f'deployed/y_validate_deployed.csv')
 
 def rul_regression_predictor():
-    """ Predictor based on Random Forest Regression """
+    """
+    Predictor based on Random Forest Regression
+    """
     st.subheader(f'Remaining Useful Life (RUL)\n_(in relative time units)_:')
     X_diff_p = st.slider('Differential Pressure', 0.0, 540.0)
     X_dust_f = st.slider('Dust Feed', 60.0, 380.0)
@@ -30,7 +32,7 @@ def rul_regression_predictor():
     model = RandomForestRegressor(n_jobs=-1)
     model.fit(X_train, y_train)
     Y_pred = model.predict(np.array([data]).reshape(1,3))
-    # st.write(f'### Remaining Useful Life _(in relative time units)_:')
+    
     st.write(f'# RUL = {round(Y_pred[0],2)}')
     st.write(f'Differential Pressure: {X_diff_p}')
     st.write(f'Dust Feed Rate: {X_dust_f}')
