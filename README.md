@@ -9,8 +9,8 @@ This dataset has been selected as an example to train a Machine Learning model t
 
 The project is aimed to provide an example of added value to a variety of industrial users looking to optimize maintenance programs and/or industrial processes that require some sort of filtering (the screening for ore concentrate, gas particles, materials in water or any other type of slurry).
 
-Repository link: [github.com/roeszler/filter-maintenance-predictor](https://github.com/roeszler/filter-maintenance-predictor)
-Deployed: [ml-maintenancepredictor.onrender.com](https://ml-maintenancepredictor.onrender.com/)
+* Repository link: [github.com/roeszler/filter-maintenance-predictor](https://github.com/roeszler/filter-maintenance-predictor)
+* Deployed: [ml-maintenancepredictor.onrender.com](https://ml-maintenancepredictor.onrender.com/)
 
 <details>
 <summary style="font-size: 1.2rem;"><strong>Added value of a Predictive Model</strong><br><i style="font-size: 1rem;">(Dropdown List)</i></summary>
