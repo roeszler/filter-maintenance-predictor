@@ -348,7 +348,7 @@ This process is developed in a **business case** that can be applied to each ML 
 
 The information for this process has been collected from the stakeholders as 
 * A Survey - [Business Case Questionnaire](https://docs.google.com/forms/d/e/1FAIpQLSfIjxD0Ki9793LTQ2szr3-qWKXUsMbQS1AhM80BCAvltxmu4A/viewform) and 
-* A sample of all survey responses summarized for stakeholder **review** and **acceptance** can be seen in the attached [Business Case Understanding](https://github.com/roeszler/filter-maintenance-predictor/tree/main/src/documentation/Business_Case_Understanding.md) document.
+* A sample of all survey responses summarized for stakeholder **review** and **acceptance** can be seen in the attached [Business Case Understanding](static/documentation/Business_Case_Understanding.md) document.
 
 ### Business Requirements
 
